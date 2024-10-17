@@ -17,3 +17,6 @@ langchain-openai
 langchain-community
 langchain-pinecone
 langchain_mistralai
+langchain_anthropic
+langchain_ollama
+pyyaml

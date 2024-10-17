@@ -19,7 +19,6 @@ from prompt_template import base_template
 # load .env in local dev
 load_dotenv()
 env_api_key = os.environ.get("MISTRAL_API_KEY")
-llm_model = "open-mixtral-8x7b"
 
 class Rag:
     document_vector_store = None
@@ -28,7 +27,7 @@ class Rag:
 
     def __init__(self, vectore_store=None):
         
-        self.model = ChatMistralAI(model=llm_model)
+        # self.model = ChatMistralAI(model=llm_model)
         self.embedding = MistralAIEmbeddings(model="mistral-embed", mistral_api_key=env_api_key)
 
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100, length_function=len)
@@ -73,11 +72,9 @@ class Rag:
         )
 
     def ask(self, query: str, messages: list):
-        
+        print(self.model)
         self.chain = self.prompt | self.model | StrOutputParser()
         
-        print("messages ", messages)
-
         # Retrieve the context document
         if self.retriever is None:
             documentContext = ''

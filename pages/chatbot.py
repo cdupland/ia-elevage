@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_chat import message
+from model import selector
 
 def display_messages():
     for i, (msg, is_user) in enumerate(st.session_state["messages"]):
@@ -21,6 +22,8 @@ def process_input():
 
 def page():
     st.subheader("Posez vos questions")
+
+    selector.ModelSelector()
 
     if "assistant" not in st.session_state:
         st.text("Assistant non initialisé")
