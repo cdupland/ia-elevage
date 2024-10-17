@@ -72,19 +72,20 @@ class Rag:
             },
         )
 
-        self.chain = self.prompt | self.model | StrOutputParser()
-
     def ask(self, query: str, messages: list):
-        if not self.chain:
-            return "Ajouter un document PDF d'abord."
+        
+        self.chain = self.prompt | self.model | StrOutputParser()
         
         print("messages ", messages)
 
         # Retrieve the context document
-        documentContext = self.retriever.invoke(query)
+        if self.retriever is None:
+            documentContext = ''
+        else:
+            documentContext = self.retriever.invoke(query)
 
         # Retrieve the VectoreStore
-        contextCommon = None
+        contextCommon = self.vector_store.retriever(query, self.embedding)
 
         return self.chain.invoke({
             "query": query,
