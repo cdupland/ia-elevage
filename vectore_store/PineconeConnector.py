@@ -21,9 +21,6 @@ class PineconeConnector(ConnectorStrategy):
         self.index_name = os.environ.get("PINECONE_INDEX_NAME")
         self.namespace = os.environ.get("PINECONE_NAMESPACE")
 
-        print(f"Index name: {self.index_name}")
-        print(f"Namespace: {self.namespace}")
-        print(f"Pinecone API Key: {pinecone_api_key}")
 
         pc = Pinecone(api_key=pinecone_api_key)
 
@@ -44,7 +41,6 @@ class PineconeConnector(ConnectorStrategy):
     
     def getDocs(self):
         # Simulate getting docs from Pinecone
-        print("Fetching documents from Pinecone")
         
         docs_names = []
         for ids in self.index.list(namespace=self.namespace):
@@ -65,13 +61,9 @@ class PineconeConnector(ConnectorStrategy):
             documents = []
             uuids = []
 
-            print(file_name)
-
             for i, chunk in enumerate(text_chunks):
                 clean_filename = remove_non_standard_ascii(file_name)
                 uuid = f"{clean_filename}_{i}"
-                
-                print(f"Adding document with ID {uuid}")
 
                 document = Document(
                     page_content=chunk,
@@ -91,8 +83,6 @@ class PineconeConnector(ConnectorStrategy):
             return False
     
     def retriever(self, query, embedding):
-
-        print(f"Retrieving documents from Pinecone for query '{query}'")
 
         vector_store = PineconeVectorStore(index=self.index, embedding=embedding,namespace=self.namespace)
 
