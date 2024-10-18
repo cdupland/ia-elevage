@@ -71,7 +71,7 @@ class Rag:
             },
         )
 
-    def ask(self, query: str, messages: list):
+    def ask(self, query: str, messages: list, variables: dict = {}):
         print(self.model)
         self.chain = self.prompt | self.model | StrOutputParser()
         
@@ -84,12 +84,22 @@ class Rag:
         # Retrieve the VectoreStore
         contextCommon = self.vector_store.retriever(query, self.embedding)
 
-        return self.chain.invoke({
+        # Dictionnaire de base avec les variables principales
+        chain_input = {
             "query": query,
             "documentContext": documentContext,
             "commonContext": contextCommon,
             "messages": messages
-        })
+        }
+
+        # Suppression des valeurs nulles (facultatif)
+        chain_input = {k: v for k, v in chain_input.items() if v is not None}
+
+        # Ajout dynamique d'autres variables dans **extra_vars
+        chain_input.update(variables)
+        print("chain_input", chain_input)
+        
+        return self.chain.invoke(chain_input)
 
     def clear(self):
         self.document_vector_store = None

@@ -1,15 +1,23 @@
 import streamlit as st
-import dotenv
 import os
 
+from dotenv import load_dotenv
 from rag import Rag
 from vectore_store.PineconeConnector import PineconeConnector
 from vectore_store.VectoreStoreManager import VectoreStoreManager
 
-GROUP_NAME = "Groupe 1"
 
-def main():
-        
+load_dotenv()
+
+GROUP_NAME = os.environ.get("APP_NAME")
+
+def init_app():
+    
+    # Read the environment variable and create a dictionary
+    variables = os.environ.get('VARIABLES')
+    keys = variables.split(',')
+    data_dict = {key: '' for key in keys}  # Initialize with empty values
+
     if len(st.session_state) == 0:
         # Define Vectore store strategy
         pinecone_connector = PineconeConnector()
@@ -17,6 +25,12 @@ def main():
 
         st.session_state["messages"] = []
         st.session_state["assistant"] = Rag(vectore_store=vs_manager)
+        st.session_state["data_dict"] = data_dict
+
+
+def main():
+
+    init_app()
 
     st.set_page_config(page_title=GROUP_NAME)
 

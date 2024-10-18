@@ -14,7 +14,7 @@ def process_input():
 
 
         with st.session_state["thinking_spinner"], st.spinner(f"Je réfléchis"):
-            agent_text = st.session_state["assistant"].ask(user_text, st.session_state["messages"] if "messages" in st.session_state else [])
+            agent_text = st.session_state["assistant"].ask(user_text, st.session_state["messages"] if "messages" in st.session_state else [], variables=st.session_state["data_dict"])
 
         st.session_state["messages"].append((user_text, True))
         st.session_state["messages"].append((agent_text, False))
