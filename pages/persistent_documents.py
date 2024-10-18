@@ -27,7 +27,7 @@ def page():
     st.session_state["ingestion_spinner"] = st.empty()
 
     st.divider()
-    st.write("Documents dans la base de données", bold=True)
+    st.write("Documents dans la base de données")
     
     for doc in st.session_state["assistant"].vector_store.getDocs():
         st.write(" - "+doc)

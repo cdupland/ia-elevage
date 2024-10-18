@@ -97,7 +97,6 @@ class Rag:
 
         # Ajout dynamique d'autres variables dans **extra_vars
         chain_input.update(variables)
-        print("chain_input", chain_input)
         
         return self.chain.invoke(chain_input)
 

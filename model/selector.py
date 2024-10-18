@@ -33,9 +33,6 @@ def ModelSelector():
 
     # Sélection d'un modèle via un seul sélecteur
     selected_model_option = st.selectbox("Choisissez votre modèle", options=model_options)
-    
-    # Afficher le modèle sélectionné
-    st.write(f"Current model: {model_mapping[selected_model_option]}")
 
     if(st.session_state["assistant"]):
         splitter = model_mapping[selected_model_option].split(".")
