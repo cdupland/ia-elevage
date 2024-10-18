@@ -10,6 +10,7 @@ from vectore_store.VectoreStoreManager import VectoreStoreManager
 load_dotenv()
 
 GROUP_NAME = os.environ.get("APP_NAME")
+LOGO = "assets/agir_agri.png"
 
 def init_app():
     
@@ -34,22 +35,36 @@ def main():
 
     st.set_page_config(page_title=GROUP_NAME)
 
+    st.logo(LOGO)
     st.title(GROUP_NAME)
 
-    prompt_system = st.Page("pages/prompt_system.py", title="Prompt système", icon="📋", default=True)
-    saved_documents = st.Page("pages/persistent_documents.py", title="Documents Communs", icon="📋")
-    documents = st.Page("pages/documents.py", title="Documents", icon="📋")
-    form = st.Page("pages/form.py", title="Formulaire", icon="📋")
-    chatbot = st.Page("pages/chatbot.py", title="Chatbot", icon="📋")
+    saved_documents = st.Page("pages/persistent_documents.py", title="Communs", icon="🗃️")
+    documents = st.Page("pages/documents.py", title="Vos documents", icon="📂")
+    prompt_system = st.Page("pages/prompt_system.py", title="Prompt système", icon="🖊️", default=True)
+    form = st.Page("pages/form.py", title="Paramètres", icon="📋")
+    chatbot = st.Page("pages/chatbot.py", title="Chatbot", icon="🤖")
 
     pg = st.navigation(
-        [
-            saved_documents,
-            prompt_system,
-            documents,
-            form,
-            chatbot
-        ]
+        {
+    "Documents": [
+        saved_documents,
+        documents,
+    ],
+    "Configurations": [
+        prompt_system,
+        form,
+    ],
+    "Dialogue": [
+        chatbot
+    ],
+}
+        # [
+        #     saved_documents,
+        #     prompt_system,
+        #     documents,
+        #     form,
+        #     chatbot
+        # ]
     )
 
     pg.run()

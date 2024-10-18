@@ -1,0 +1,12 @@
+prompts:
+  general:
+    - "Quels sont les principaux défis auxquels les agriculteurs sont confrontés aujourd'hui ?"
+    - "Explique-moi les différences entre l'agriculture biologique et l'agriculture conventionnelle."
+    - "Comment l'agriculture contribue-t-elle à la lutte contre le changement climatique ?"
+    - "Quels sont les avantages et inconvénients des OGM dans l'agriculture ?"
+
+  techniques:
+    - "Comment fonctionne la rotation des cultures et pourquoi est-elle importante ?"
+    - "Explique les avantages de l'irrigation goutte à goutte pour les cultures."
+    - "Quels sont les types de fertilisants les plus utilisés en agriculture et leurs impacts ?"
+    - "Quelles sont les techniques de lutte biologique contre les nuisibles ?"

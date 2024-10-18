@@ -72,7 +72,6 @@ class Rag:
         )
 
     def ask(self, query: str, messages: list, variables: dict = {}):
-        print(self.model)
         self.chain = self.prompt | self.model | StrOutputParser()
         
         # Retrieve the context document
