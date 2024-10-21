@@ -1,9 +1,13 @@
+import os
+
 from .ModelStrategy import ModelStrategy
 
 from langchain_community.chat_models import ChatOpenAI
 from langchain_mistralai.chat_models import ChatMistralAI
 from langchain_anthropic import ChatAnthropic
-from langchain_ollama import ChatOllama
+
+from llamaapi import LlamaAPI
+from langchain_experimental.llms import ChatLlamaAPI
 
 class MistralModel(ModelStrategy):
     def get_model(self, model_name):
@@ -20,9 +24,10 @@ class AnthropicModel(ModelStrategy):
         return ChatAnthropic(model=model_name)
 
 
-class OllamaModel(ModelStrategy):
+class LlamaAPIModel(ModelStrategy):
     def get_model(self, model_name):
-        return ChatOllama(model=model_name)
+        llama = LlamaAPI(os.environ.get("LLAMA_API_KEY"))
+        return ChatLlamaAPI(client=llama, model=model_name)
 
 class ModelManager():
     def __init__(self):
@@ -30,7 +35,7 @@ class ModelManager():
             "mistral": MistralModel(),
             "openai": OpenAIModel(),
             "anthropic": AnthropicModel(),
-            "ollama": OllamaModel()
+            "llama": LlamaAPIModel()
         }
 
     def get_model(self, provider, model_name):

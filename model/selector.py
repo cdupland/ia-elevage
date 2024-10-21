@@ -16,8 +16,10 @@ def ModelSelector():
             "claude-3-opus-20240229": "anthropic.claude-3-opus-20240229",
             "claude-3-sonnet-20240229": "anthropic.claude-3-sonnet-20240229",
         },
-        # "Ollama": {
-        #     "llama3": "ollama.llama3"
+        # "llama": {
+        #     "llama3.2-11b-vision": "llama.llama3.2-11b-vision",
+        #     "llama3.2-1b": "llama.llama3.2-1b",
+        #     "llama3.2-3b": "llama.llama3.2-3b"
         # }
     }
 
