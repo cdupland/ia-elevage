@@ -21,8 +21,10 @@ def process_input():
     if "user_input" in st.session_state and st.session_state["user_input"] and len(st.session_state["user_input"].strip()) > 0:
         user_text = st.session_state["user_input"].strip()
 
+        prompt_sys = st.session_state.prompt_system if 'prompt_system' in st.session_state and st.session_state.prompt_system != '' else ""
+    
         with st.session_state["thinking_spinner"], st.spinner(f"Je réfléchis"):
-            agent_text = st.session_state["assistant"].ask(user_text, st.session_state["messages"] if "messages" in st.session_state else [], variables=st.session_state["data_dict"])
+            agent_text = st.session_state["assistant"].ask(user_text, prompt_sys, st.session_state["messages"] if "messages" in st.session_state else [], variables=st.session_state["data_dict"])
 
         st.session_state["messages"].append((user_text, True))
         st.session_state["messages"].append((agent_text, False))
@@ -57,9 +59,6 @@ def page():
 
     selector.ModelSelector()
 
-    # Get prompt system
-    # prompt_sys = st.session_state.prompt_system if 'prompt_system' in st.session_state and st.session_state.prompt_system != '' else "Renseignez votre prompt system"
-    
     display_messages()
 
     st.text_input("Message", key="user_input", on_change=process_input)

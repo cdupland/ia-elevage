@@ -72,7 +72,7 @@ class Rag:
             },
         )
 
-    def ask(self, query: str, messages: list, variables: list = None):
+    def ask(self, query: str, prompt_system: str, messages: list, variables: list = None):
         self.chain = self.prompt | self.model | StrOutputParser()
         
         # Retrieve the context document
@@ -89,6 +89,7 @@ class Rag:
             "query": query,
             "documentContext": documentContext,
             "commonContext": contextCommon,
+            "prompt_system": prompt_system,
             "messages": messages
         }
 
