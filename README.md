@@ -55,22 +55,63 @@ L'application est structurée en trois parties principales :
 
 ## Base de Données Vectorielle
 
-Les documents (communs et personnels) sont vectorisés et stockés dans une base de données vectorielle. Cela permet à l'IA de rechercher et d'explorer ces documents pour enrichir les conversations en fonction des informations disponibles.
+La base de données vectorielle permet de stocker de manière permanente les différents vecteurs de documents, afin de faciliter leur recherche et leur utilisation dans les conversations avec l'IA.
 
-## Paramètres Dynamiques
+### Pinecone
 
-Cette application permet la gestion de paramètres dynamiques configurables via l'interface utilisateur. Ces paramètres modifient le comportement de l'application et de l'IA en fonction des besoins de l'utilisateur.
+L'application utilise **Pinecone**, une solution cloud pour la gestion de bases de données vectorielles. Pinecone simplifie la gestion des vecteurs et permet une intégration efficace avec l'application.
 
-## Prompts par Défaut
+Pour que l'intégration fonctionne correctement, vous devez renseigner les variables d'environnement suivantes :
 
-Des *prompts* par défaut peuvent être définis pour démarrer les conversations avec l'IA. Ces *prompts* sont personnalisables dans la section "Prompt système" des **Configurations**.
+- **PINECONE_API_KEY** : Clé d'API fournie par Pinecone pour l'accès à votre compte.
+- **PINECONE_INDEX_NAME** : Le nom de l'index Pinecone dans lequel les vecteurs seront stockés.
+- **PINECONE_NAMESPACE** : Un namespace unique propre à chaque application, utilisé pour organiser les vecteurs.
+
+Ces informations sont disponibles directement dans votre compte Pinecone, et doivent être correctement configurées pour permettre le fonctionnement de la base de données vectorielle.
+
+
+## Configuration de l'application
+
+Vous pouvez configurer votre application plus finement en la personalisant en fonction de vos besoins. Ces configurations se font dans le fichier *config.yaml* accessible dans la partie *Files* de votre espace Huggingface. La modification se fait ensuite via le bouton *'edit'*. 
+Une fois, vos modifications effectuées, cliquez sur *'Commit changes to main'* pour les enregistrer et relancer automatiquement l'application.
+
+#### Paramètres Dynamiques
+
+Les paramètres peuvent être ajustés dans la section **variables**, en mettant la liste des variables souhaitées.
+Pour chacune d'entre elles, un *label*, une *key* et optionnelement une valeur par défaut *value* sont nécessaires.
+Pour être prise en compte, ces variables doivent être implémenté dans le prompt template via leur *'key'* sous la forme **{ma_variable}**
+
+#### Prompt template
+
+Vous pouvez directement spécifier votre prompt template dans la section **prompt_template** du fichier de configuration
+
+#### Prompts par Défaut
+
+Des *prompts* par défaut peuvent être définis pour démarrer les conversations avec l'IA. Ces *prompts* sont personnalisables dans la section **prompts**.
+La première tabulation correspond à une catégorie, permettant de faire des regroupements.
+Chaque '-' représente ensuite un prompt qui sera proposé.
 
 ## Déploiement
 
 Pour déployer cette application sur Huggingface :
 
 1. Dupliquez l'espace Huggingface existant.
-2. Configurez les fichiers de l'application (paramètres, prompts par défaut, etc.).
-3. Assurez-vous que la base de données vectorielle est correctement co
+2. Renseignez les variables d'environnements. Il vous sera demandé de rentrer toutes les variables d'environnements. Vous les variables qui seront propres à votre application : 
+ - **APP_NAME** : Nom de votre application
+ - **PINECONE_NAMESPACE** : Espace de stockage permanent de votre application
+3. Ajustez votre configuration dans le fichier *config.yaml* (voir section **Configuration de l'application**)
+
+
+## Variables d'environnements
+| Variable | Description 
+|----------|----------
+**APP_NAME**|Nom de l'application
+**ANTHROPIC_API_KEY**| Clé API Anthropic
+**MISTRAL_API_KEY**|Clé API Mistral
+**OPENAI_API_KEY**|Clé API OpenAI
+**LLAMA_API_KEY**|Clé Llama API
+**PINECONE_API_KEY**|Clé API Pinecone
+**PINECONE_INDEX_NAME**|Index/BDD Pinecone
+**PINECONE_NAMESPACE**|Espace de stockage propre à l'application
 
 
