@@ -6,18 +6,16 @@ from rag import Rag
 from vectore_store.PineconeConnector import PineconeConnector
 from vectore_store.VectoreStoreManager import VectoreStoreManager
 
+from util import getYamlConfig
 
 load_dotenv()
 
 GROUP_NAME = os.environ.get("APP_NAME")
-LOGO = "assets/agir_agri.png"
+LOGO = "assets/logo.png"
 
 def init_app():
-    
-    # Read the environment variable and create a dictionary
-    variables = os.environ.get('VARIABLES')
-    keys = variables.split(',')
-    data_dict = {key: '' for key in keys}  # Initialize with empty values
+
+    data_dict = getYamlConfig()['variables']
 
     if len(st.session_state) == 0:
         # Define Vectore store strategy
@@ -46,25 +44,18 @@ def main():
 
     pg = st.navigation(
         {
-    "Documents": [
-        saved_documents,
-        documents,
-    ],
-    "Configurations": [
-        prompt_system,
-        form,
-    ],
-    "Dialogue": [
-        chatbot
-    ],
-}
-        # [
-        #     saved_documents,
-        #     prompt_system,
-        #     documents,
-        #     form,
-        #     chatbot
-        # ]
+            "Documents": [
+                saved_documents,
+                documents,
+            ],
+            "Configurations": [
+                prompt_system,
+                form,
+            ],
+            "Dialogue": [
+                chatbot
+            ],
+        }
     )
 
     pg.run()

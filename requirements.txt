@@ -1,16 +1,13 @@
 streamlit==1.37.0
 streamlit_chat
-# abc
 python-dotenv
 pymupdf
+pypdf
 python-multipart
 pydantic
-langchain-pinecone 
 pinecone-notebooks
 pinecone-client[grpc]
 async-timeout
-pymupdf
-python-dotenv
 typing-extensions
 langchain
 langchain-openai

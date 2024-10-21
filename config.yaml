@@ -10,3 +10,26 @@ prompts:
     - "Explique les avantages de l'irrigation goutte à goutte pour les cultures."
     - "Quels sont les types de fertilisants les plus utilisés en agriculture et leurs impacts ?"
     - "Quelles sont les techniques de lutte biologique contre les nuisibles ?"
+
+variables:
+  - label : Mon paramètre 1
+    key : param1
+    value :
+  - label : Mon paramètre 2
+    key : param2
+    value :
+  - label : Mon paramètre 3
+    key : param3
+    value :
+
+prompt_template: "
+Paramètre 1 : {param1}
+Paramètre 2 : {param2}
+Paramètre 3 : {param3}
+
+Documents partagées : {commonContext}
+Document de référence : {documentContext}
+
+Voici l'historique des messages : {messages}
+Les attentes de l'utilisateur sont : {query}
+"

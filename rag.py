@@ -10,10 +10,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores.utils import filter_complex_metadata
-#add new import
 from langchain_community.document_loaders.csv_loader import CSVLoader
 
-from prompt_template import base_template
+from util import getYamlConfig
 
 
 # load .env in local dev
@@ -31,6 +30,8 @@ class Rag:
         self.embedding = MistralAIEmbeddings(model="mistral-embed", mistral_api_key=env_api_key)
 
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100, length_function=len)
+        
+        base_template = getYamlConfig()['prompt_template']
         self.prompt = PromptTemplate.from_template(base_template)
 
         self.vector_store = vectore_store
@@ -71,7 +72,7 @@ class Rag:
             },
         )
 
-    def ask(self, query: str, messages: list, variables: dict = {}):
+    def ask(self, query: str, messages: list, variables: list = None):
         self.chain = self.prompt | self.model | StrOutputParser()
         
         # Retrieve the context document
@@ -94,9 +95,15 @@ class Rag:
         # Suppression des valeurs nulles (facultatif)
         chain_input = {k: v for k, v in chain_input.items() if v is not None}
 
-        # Ajout dynamique d'autres variables dans **extra_vars
-        chain_input.update(variables)
+        # Si des variables sous forme de liste sont fournies
+        if variables:
+            # Convertir la liste en dictionnaire avec 'key' comme clé et 'value' comme valeur
+            extra_vars = {item['key']: item['value'] for item in variables if 'key' in item and 'value' in item}
+            
+            # Fusionner avec chain_input
+            chain_input.update(extra_vars)
         
+
         return self.chain.invoke(chain_input)
 
     def clear(self):
