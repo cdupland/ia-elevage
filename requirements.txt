@@ -12,6 +12,7 @@ typing-extensions
 langchain
 langchain-openai
 langchain-community
+langchain-experimental
 langchain-pinecone
 langchain_mistralai
 langchain_anthropic
