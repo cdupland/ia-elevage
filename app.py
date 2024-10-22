@@ -15,7 +15,7 @@ LOGO = "assets/logo.png"
 
 def init_app():
 
-    data_dict = getYamlConfig()['variables']
+    config = getYamlConfig()
 
     if len(st.session_state) == 0:
         # Define Vectore store strategy
@@ -24,7 +24,8 @@ def init_app():
 
         st.session_state["messages"] = []
         st.session_state["assistant"] = Rag(vectore_store=vs_manager)
-        st.session_state["data_dict"] = data_dict
+        st.session_state["data_dict"] = config['variables']
+        st.session_state["prompt_system"] = config['prompt_system']
 
 
 def main():

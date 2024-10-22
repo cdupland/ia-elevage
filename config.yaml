@@ -22,6 +22,8 @@ variables:
     key : param3
     value :
 
+prompt_system: "Prompt system par défaut"
+
 prompt_template: "
 Paramètre 1 : {param1}
 Paramètre 2 : {param2}
