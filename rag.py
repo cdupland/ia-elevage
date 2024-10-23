@@ -23,6 +23,7 @@ class Rag:
     document_vector_store = None
     retriever = None
     chain = None
+    readableModelName = ""
 
     def __init__(self, vectore_store=None):
         
@@ -36,9 +37,13 @@ class Rag:
 
         self.vector_store = vectore_store
 
-    def setModel(self, model):
+    def setModel(self, model, readableModelName = ""):
         self.model = model
+        self.readableModelName = readableModelName
 
+    def getReadableModel(self):
+        return self.readableModelName
+    
     def ingestToDb(self, file_path: str, filename: str):
 
         docs = PyPDFLoader(file_path=file_path).load()
@@ -105,7 +110,7 @@ class Rag:
             chain_input.update(extra_vars)
         
 
-        return self.chain.invoke(chain_input)
+        return self.chain.stream(chain_input)
 
     def clear(self):
         self.document_vector_store = None

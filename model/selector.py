@@ -38,5 +38,5 @@ def ModelSelector():
 
     if(st.session_state["assistant"]):
         splitter = model_mapping[selected_model_option].split(".")
-        st.session_state["assistant"].setModel(ModelManager().get_model(splitter[0], splitter[1]))
+        st.session_state["assistant"].setModel(ModelManager().get_model(splitter[0], splitter[1]), splitter[1])
     
