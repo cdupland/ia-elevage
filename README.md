@@ -85,6 +85,10 @@ Pour être prise en compte, ces variables doivent être implémenté dans le pro
 
 Vous pouvez directement spécifier votre prompt template dans la section **prompt_template** du fichier de configuration
 
+#### Prompt system
+
+Egalement, vous pouvez renseigner un prompt système par défaut, dans la section **prompt_system** du fichier de configuration
+
 #### Prompts par Défaut
 
 Des *prompts* par défaut peuvent être définis pour démarrer les conversations avec l'IA. Ces *prompts* sont personnalisables dans la section **prompts**.
