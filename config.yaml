@@ -12,14 +12,20 @@ prompts:
     - "Quelles sont les techniques de lutte biologique contre les nuisibles ?"
 
 variables:
-  - label : Mon paramètre 1
+  - label : Région viticole
+    nature: 'radio'
     key : param1
+    options : ["Champagne", "Vin de bordeaux", "Occitanie"]
     value :
-  - label : Mon paramètre 2
+  - label : Millésime
+    nature: 'selectbox'
     key : param2
+    options : ["2019", "2020", "2021"]
     value :
-  - label : Mon paramètre 3
+  - label : Indicateur
+    nature: 'multiselect'
     key : param3
+    options : ["Prix de revient par hectare (€/ha)", "Prix de revient par hectolitre (€/hl)", "Coût de la main d’oeuvre par hectare (€/ha)", "Frais d’habillage ou de mise (€/bouteille)"]
     value :
 
 prompt_system: "Prompt system par défaut"
