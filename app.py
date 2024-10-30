@@ -27,6 +27,17 @@ def init_app():
         st.session_state["data_dict"] = config['variables']
         st.session_state["prompt_system"] = config['prompt_system']
 
+        if 'parts' in config['variables']:
+            # Flatten structure by adding part name to each field
+            st.session_state["data_dict"] = [
+                {**field, "part": part["name"]}
+                for part in config["variables"]["parts"]
+                for field in part["fields"]
+            ]
+        else:
+            # Initialize session state with single list of variables
+            st.session_state["data_dict"] = [{**field} for field in config["variables"]]
+
 
 def main():
 

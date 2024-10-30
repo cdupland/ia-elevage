@@ -15,7 +15,7 @@ pinned: false
 
 ## Introduction
 
-Cette application sert de base/template pour en déployer d'autres sur le même modèle via Huggingface. Elle est facilement duplicable en dupliquant l'espace. Elle est décomposée en plusieurs sections pour offrir une gestion complète des documents et des dialogues avec une Intelligence Artificielle (IA).
+Cette application sert de base/template pour en déployer d'autres sur le même modèle via Huggingface, en la dupliquant. Elle est décomposée en plusieurs sections pour offrir une gestion complète des documents et des dialogues avec une Intelligence Artificielle (IA).
 
 ### Structure de l'application
 
@@ -55,7 +55,7 @@ L'application est structurée en trois parties principales :
 
 ## Base de Données Vectorielle
 
-La base de données vectorielle permet de stocker de manière permanente les différents vecteurs de documents, afin de faciliter leur recherche et leur utilisation dans les conversations avec l'IA.
+La base de données vectorielle stocke de façon permanente les informations extraites des documents sous forme de vecteurs. Cette organisation facilite leur recherche et utilisation dans les conversations avec l'IA.
 
 ### Pinecone
 
@@ -80,6 +80,11 @@ Une fois, vos modifications effectuées, cliquez sur *'Commit changes to main'* 
 Les paramètres peuvent être ajustés dans la section **variables**, en mettant la liste des variables souhaitées.
 Pour chacune d'entre elles, un *label*, une *key* et optionnelement une valeur par défaut *value* sont nécessaires.
 Pour être prise en compte, ces variables doivent être implémenté dans le prompt template via leur *'key'* sous la forme **{ma_variable}**
+
+Une secode version, permet de séparer le formulaire en plusieurs parties pour mieux l'organiser.
+Chaque section/partie ('part') regroupe plusieurs paramètres sous un nom et un numéro, pour faciliter leur tri.
+
+Vous pouvez consultez directement le fichier **config.yaml** pour pluys de détails.
 
 #### Prompt template
 

@@ -11,22 +11,107 @@ prompts:
     - "Quels sont les types de fertilisants les plus utilisés en agriculture et leurs impacts ?"
     - "Quelles sont les techniques de lutte biologique contre les nuisibles ?"
 
+
+# ----------------------------------------------------------
+# Gestion du formulaire dynamique
+# ----------------------------------------------------------
+# Version 1 : Liste de champs sous 'variables' (sans structure de 'parts')
+# ----------------------------------------------------------
+# Chaque champ est défini directement sous 'variables'.
+# Vous pouvez ajouter des champs en suivant ce format.
+# Pour utiliser cette version, laissez-la telle quelle et commentez la version 2 ci-dessous.
+
 variables:
-  - label : Région viticole
+  - label: "Région viticole"
     nature: 'radio'
-    key : param1
-    options : ["Champagne", "Vin de bordeaux", "Occitanie"]
-    value :
-  - label : Millésime
+    key: param1
+    options: ["Champagne", "Vin de Bordeaux", "Occitanie"]
+    value: # Valeur par défaut
+
+  - label: "Millésime"
     nature: 'selectbox'
-    key : param2
-    options : ["2019", "2020", "2021"]
-    value :
-  - label : Indicateur
-    nature: 'multiselect'
-    key : param3
-    options : ["Prix de revient par hectare (€/ha)", "Prix de revient par hectolitre (€/hl)", "Coût de la main d’oeuvre par hectare (€/ha)", "Frais d’habillage ou de mise (€/bouteille)"]
-    value :
+    key: param2
+    options: ["2019", "2020", "2021", "2022"]
+    value: # Valeur par défaut
+
+  - label: "Budget prévu (en €)"
+    nature: 'numeric'
+    key: param3
+    value: # Valeur par défaut
+
+  - label: "Date de récolte"
+    nature: 'date'
+    key: param4
+    value: # Valeur par défaut
+
+  - label: "Remarques sur la récolte"
+    nature: 'text_area'
+    key: param5
+    value: # Valeur par défaut
+
+
+# Version 2 : Structure de 'parts' pour organiser les champs en sections
+# ----------------------------------------------------------------------
+# Chaque 'part' représente une section contenant un groupe de champs (par exemple : Panier, Livraison).
+# La clé 'number' permet d’ordonner les sections.
+# Pour activer cette version, commentez la Version 1 ci-dessus et décommentez cette section.
+
+# variables:
+#   parts:
+#     - name: "Panier"
+#       number: 1
+#       fields:
+#         - label: "Région viticole"
+#           nature: 'radio'
+#           key: param1
+#           options: ["Champagne", "Vin de Bordeaux", "Occitanie"]
+#           value: # Valeur par défaut
+
+#         - label: "Millésime"
+#           nature: 'selectbox'
+#           key: param2
+#           options: ["2019", "2020", "2021", "2022"]
+#           value: # Valeur par défaut
+
+#         - label: "Budget prévu (en €)"
+#           nature: 'numeric'
+#           key: param3
+#           value: # Valeur par défaut
+
+#     - name: "Livraison"
+#       number: 2
+#       fields:
+#         - label: "Adresse de livraison"
+#           nature: ''
+#           key: param6
+#           value: # Valeur par défaut
+
+#         - label: "Date de livraison souhaitée"
+#           nature: 'date'
+#           key: param7
+#           value: # Valeur par défaut
+
+#     - name: "Paiement"
+#       number: 3
+#       fields:
+#         - label: "Mode de paiement"
+#           nature: 'selectbox'
+#           key: param8
+#           options: ["Carte de crédit", "Virement bancaire", "Chèque"]
+#           value: # Valeur par défaut
+
+#         - label: "Conditions de paiement"
+#           nature: 'text_area'
+#           key: param9
+#           value: # Valeur par défaut
+
+#     - name: "Remarques supplémentaires"
+#       number: 4
+#       fields:
+#         - label: "Remarques générales"
+#           nature: 'text_area'
+#           key: param10
+#           value: # Valeur par défaut
 
 prompt_system: "Prompt system par défaut"
 
@@ -34,6 +119,7 @@ prompt_template: "
 Paramètre 1 : {param1}
 Paramètre 2 : {param2}
 Paramètre 3 : {param3}
+Paramètre 4 : {param4}
 
 Documents partagées : {commonContext}
 Document de référence : {documentContext}
