@@ -1,5 +1,5 @@
 ---
-title: Common
+title: IA Elevage
 emoji: 🏢
 colorFrom: purple
 colorTo: indigo
