@@ -19,3 +19,4 @@ langchain_anthropic
 llamaapi
 pyyaml
 st_copy_to_clipboard
+faiss-gpu
