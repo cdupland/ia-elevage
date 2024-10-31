@@ -24,6 +24,7 @@ class Rag:
     retriever = None
     chain = None
     readableModelName = ""
+    all_documents = []  # Attribut pour stocker les documents injectés
 
     def __init__(self, vectore_store=None):
         
@@ -67,15 +68,27 @@ class Rag:
         chunks = self.text_splitter.split_documents(docs)
         chunks = filter_complex_metadata(chunks)
 
-        document_vector_store = FAISS.from_documents(chunks, self.embedding)
+        if self.document_vector_store is None:
+            self.document_vector_store = FAISS.from_documents(chunks, self.embedding)
+        else:
+            self.document_vector_store.add_documents(chunks)
+
+        # Ajout des documents dans la liste `all_documents`
+        self.all_documents.extend(chunks)
         
-        self.retriever = document_vector_store.as_retriever(
+        self.retriever = self.document_vector_store.as_retriever(
             search_type="similarity_score_threshold",
             search_kwargs={
                 "k": 3,
                 "score_threshold": 0.5,
             },
         )
+
+
+    def list_documents(self):
+        """Retourne tous les documents injectés."""
+        return [doc for doc in self.all_documents]
+
 
     def ask(self, query: str, prompt_system: str, messages: list, variables: list = None):
         self.chain = self.prompt | self.model | StrOutputParser()

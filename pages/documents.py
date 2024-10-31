@@ -32,4 +32,8 @@ def page():
 
     st.session_state["ingestion_spinner"] = st.empty()
 
+
+    for doc in st.session_state["assistant"].list_documents():
+        st.write(doc)
+
 page()

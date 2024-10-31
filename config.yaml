@@ -12,43 +12,6 @@ prompts:
     - "Quelles sont les techniques de lutte biologique contre les nuisibles ?"
 
 
-# ----------------------------------------------------------
-# Gestion du formulaire dynamique
-# ----------------------------------------------------------
-# Version 1 : Liste de champs sous 'variables' (sans structure de 'parts')
-# ----------------------------------------------------------
-# Chaque champ est défini directement sous 'variables'.
-# Vous pouvez ajouter des champs en suivant ce format.
-# Pour utiliser cette version, laissez-la telle quelle et commentez la version 2 ci-dessous.
-
-variables:
-  - label: "Région viticole"
-    nature: 'radio'
-    key: param1
-    options: ["Champagne", "Vin de Bordeaux", "Occitanie"]
-    value: # Valeur par défaut
-
-  - label: "Millésime"
-    nature: 'selectbox'
-    key: param2
-    options: ["2019", "2020", "2021", "2022"]
-    value: # Valeur par défaut
-
-  - label: "Budget prévu (en €)"
-    nature: 'numeric'
-    key: param3
-    value: # Valeur par défaut
-
-  - label: "Date de récolte"
-    nature: 'date'
-    key: param4
-    value: # Valeur par défaut
-
-  - label: "Remarques sur la récolte"
-    nature: 'text_area'
-    key: param5
-    value: # Valeur par défaut
-
 
 # Version 2 : Structure de 'parts' pour organiser les champs en sections
 # ----------------------------------------------------------------------
@@ -56,75 +19,439 @@ variables:
 # La clé 'number' permet d’ordonner les sections.
 # Pour activer cette version, commentez la Version 1 ci-dessus et décommentez cette section.
 
-# variables:
-#   parts:
-#     - name: "Panier"
-#       number: 1
-#       fields:
-#         - label: "Région viticole"
-#           nature: 'radio'
-#           key: param1
-#           options: ["Champagne", "Vin de Bordeaux", "Occitanie"]
-#           value: # Valeur par défaut
+variables:
+  parts:
+    - name: "INFORMATIONS GÉNÉRALES"
+      number: 1
+      fields:
+        - label: "Date de début de l'exercice"
+          nature: 'date'
+          key: date_debut_exercice
+          value: "2023-01-01"
 
-#         - label: "Millésime"
-#           nature: 'selectbox'
-#           key: param2
-#           options: ["2019", "2020", "2021", "2022"]
-#           value: # Valeur par défaut
+        - label: "Date de fin de l'exercice"
+          nature: 'date'
+          key: date_fin_exercice
+          value: "2023-12-31"
 
-#         - label: "Budget prévu (en €)"
-#           nature: 'numeric'
-#           key: param3
-#           value: # Valeur par défaut
+        - label: "Adresse de l'exploitant (Code postal)"
+          nature: 'text'
+          key: adresse_exploitant_code_postal
+          value: "39210"
 
-#     - name: "Livraison"
-#       number: 2
-#       fields:
-#         - label: "Adresse de livraison"
-#           nature: ''
-#           key: param6
-#           value: # Valeur par défaut
+        - label: "Nombre d'UTH (Unité Travail Humain)"
+          nature: 'numeric'
+          key: nombre_uth
+          value: 2
 
-#         - label: "Date de livraison souhaitée"
-#           nature: 'date'
-#           key: param7
-#           value: # Valeur par défaut
+        - label: "Choix du type de Spécificités et/ou Certifications"
+          nature: 'selectbox'
+          key: type_spec_certifications
+          options: ["Bio Oui Totale", "Bio Partielle", "Conventionnelle"]
+          value: "Bio Oui Totale"
 
-#     - name: "Paiement"
-#       number: 3
-#       fields:
-#         - label: "Mode de paiement"
-#           nature: 'selectbox'
-#           key: param8
-#           options: ["Carte de crédit", "Virement bancaire", "Chèque"]
-#           value: # Valeur par défaut
+        - label: "Choix du type d'élevage"
+          nature: 'selectbox'
+          key: type_elevage
+          options: ["Élevage Bovin Lait", "Élevage Bovin Viande"]
+          value: "Élevage Bovin Lait"
 
-#         - label: "Conditions de paiement"
-#           nature: 'text_area'
-#           key: param9
-#           value: # Valeur par défaut
+        - label: "Choix du type d'élevage – Lait AOP"
+          nature: 'radio'
+          key: type_elevage_lait_aop
+          options: ["Oui", "Non"]
+          value: "Oui"
 
-#     - name: "Remarques supplémentaires"
-#       number: 4
-#       fields:
-#         - label: "Remarques générales"
-#           nature: 'text_area'
-#           key: param10
-#           value: # Valeur par défaut
+    - name: "INFORMATIONS TECHNIQUES"
+      number: 2
+      fields:
+        - label: "Nombre d’UGB (Unité Gros Bovins) présents sur l’exploitation"
+          nature: 'numeric'
+          key: nombre_ugb
+          value: 39.57
+
+        - label: "Nombre de VL (Vache laitière) présentes sur l’exploitation"
+          nature: 'numeric'
+          key: nombre_vl
+          value: 34.27
+
+        - label: "Nombre de Génisses de +2 ans présentes sur l’exploitation"
+          nature: 'numeric'
+          key: nombre_genisses_plus_2ans
+          value: 1.33
+
+        - label: "Quantité de GNR achetée (en litres) durant l'exercice (incluant les stocks)"
+          nature: 'numeric'
+          key: quantite_gnr
+          value: 2584  # Calcul : 1884 + 1000 - 300
+
+        - label: "Quantité annuelle de lait livré en coopérative (en litre)"
+          nature: 'numeric'
+          key: quantite_lait_cooperative
+          value: 191411
+
+        - label: "Quantité d'aliment VL (Vache Laitière) achetée durant l'exercice de référence (en € HT)"
+          nature: 'numeric'
+          key: quantite_aliment_vl
+          value: 57080
+
+        - label: "Quantité de Gros Bovins Vendus durant l'exercice de référence (en unité)"
+          nature: 'numeric'
+          key: quantite_gros_bovins_vendus
+          value: 2
+
+        - label: "Quantité de Jeunes Bovins vendus durant l'exercice de référence (en unité)"
+          nature: 'numeric'
+          key: quantite_jeunes_bovins_vendus
+          value: 30
+
+
 
 prompt_system: "Prompt system par défaut"
 
 prompt_template: "
-Paramètre 1 : {param1}
-Paramètre 2 : {param2}
-Paramètre 3 : {param3}
-Paramètre 4 : {param4}
 
-Documents partagées : {commonContext}
-Document de référence : {documentContext}
+Conseiller : VP
 
-{prompt_system}
+ROLE :
+Tu es expert-comptable français dans un cabinet comptable. Tu es de plus spécialisé dans la comptabilité agricole française.
+
+CONTEXTE :
+On te fournit des documents confidentiels d'une exploitation agricole afin d'extraire les informations nécessaires pour calculer plusieurs coûts de production de l'exploitation (Coût de revient global (en €), Rentabilité de la structure, Taux de chargement UGB, Coûts des aliments (en € HT), Quantité d'aliment par VL (en Kilo), Coût sanitaire (en € HT ), Coût de Reproduction (en € HT ) …)
+
+RESSOURCES :
+Procède par étape en analysant les documents ci-dessous : 
+* SIG (Structure VL - Petite).pdf
+* Assolement PAC (Structure VL - Petite).pdf
+* Mouvements emprunts (Structure VL - Petite).pdf
+
+Voici les données des documents ci-dessus : {documentContext}
+
+OBJECTIF :
+Extraire rigoureusement les valeurs recherchées décrites dans la section 'ETAPES' sans aucun risque d'erreur.
+
+CONTRAINTE :
+Si tu ne parviens pas à extraire les valeurs ou si il y a un risque d'erreur, alors dis - le afin que je puisse t'aider à les extraire.
+Si tu ne trouves pas de donnée en colonne [31/12/2023] ne prends rien
+
+
+ETAPE A : Prends en compte et mémorise les données ci-dessous afin que tu puisses les utiliser dans les prochains calculs :
+
+DONNÉES : 
+
+INFORMATIONS GÉNÉRALES
+A1.1 : Date_début_exercice : {date_debut_exercice}
+A1.2 : Date_fin_exercice : {date_fin_exercice}
+A2 : ADRESSE EXPLOITANT (Code postal) : {adresse_exploitant_code_postal}
+A3 : Nombre d'UTH (Unité Travail Humain) : {nombre_uth}
+A4 : Choix du type de Spécificités et/ou Certifications dans le menu déroulant ci dessous : {type_spec_certifications}
+A5 : Choix du type d'élevage dans le menu déroulant ci dessous : {type_elevage}
+A6 : Lait AOP dans le menu déroulant ci dessous : {type_elevage_lait_aop}
+
+
+INFORMATIONS TECHNIQUES
+A7.1 : Nombre d’UGB (Unité Gros Bovins) présents sur l’exploitation : {nombre_ugb}
+A7.2 : Nombre de VL (Vache laitière) présentes sur l’exploitation : {nombre_vl}
+A7.3 : Nombre de Génisses de + 2 ans présentes sur l’exploitation : {nombre_genisses_plus_2ans}
+A8 : Quelle quantité de GNR achetée (en litres) durant l'exercice ? (incluant les stocks) : {quantite_gnr}
+A9 : Quantité annuelle de lait livré en coopérative (en litre) : {quantite_lait_cooperative}
+A10 :  Quantité d'aliment VL (Vache Laitière) achetée durant l'exercice de référence (en € HT) : {quantite_aliment_vl}
+A11 : Quantité de Gros Bovins Vendus durant l'exercice de référence (en unité) : {quantite_gros_bovins_vendus}
+A12 : Quantité de Jeunes Bovins vendus durant l'exercice de référence (en unité) : {quantite_jeunes_bovins_vendus}
+
+
+DONNÉES EXTRAITES
+
+Extraction des données ASSOLEMENT PAC
+
+
+ETAPE B EXTRACTION DES DONNÉES : : Assolement PAC (Structure VL - Moyenne).pdf
+
+B1 : Total des ' SURFACE DE L'EXPLOITATION (en Hectare) ' : Extraire la valeur indiquée dans le Libellé ligne 'TOTAL'
+* Afficher la valeur
+
+Extraction des données PRODUITS (Chiffre d’affaires, subvention)
+
+
+ETAPE C EXTRACTION DES DONNÉES : SIG (Structure VL - Moyenne).pdf
+
+C1 : Total des 'Chiffre d'affaires - Ventes de Lait réalisées durant l'exercice de référence (en € HT) ' : Extraire la valeur indiquée dans le Libellé ligne '70121001'
+* Afficher la valeur
+
+
+C2 : Total des ' Chiffre d'affaires - Ventes Gros Bovins réalisées durant l'exercice de référence (en € HT) ' : Extraire les valeurs indiquées dans les Libellés ligne '701410'
+* Afficher la valeur
+
+C3 : Total des ' Chiffre d'affaires - Ventes Jeunes Bovins réalisées durant l'exercice de référence (en € HT) ' : Extraire les valeurs indiquées dans les Libellés ligne '701411'
+* Afficher la valeur
+
+C4 : Total des ' Chiffres d'affaires de l'exploitation (en € HT ) ' : Extraire les valeurs indiquées dans les Libellés ligne '70'
+* Afficher la valeur
+
+C5 : Montant de la “PAC attribuée durant l'exercice (en €)' : Extraire les valeurs indiquées dans les Libellés ligne '745”
+* Afficher la valeur
+
+C6 : 'Total des Produits d'Exploitation (en €)' : Extraire les valeurs indiquées dans les Libellés ligne '70” + Libellés ligne “71”  + Libellés ligne '72” + Libellés ligne '73”+ Libellés ligne '74' +  Libellés ligne '79'
+* Afficher la valeur
+
+
+Extraction des données CHARGES OPÉRATIONNELLES 
+
+ETAPE D EXTRACTION DES DONNÉES :
+
+D1 : Total des ' Coût des intrants (en € HT) intégrant variations de stocks ' : Extraire les valeurs indiquées dans les Libellés ligne '60111' + Libellé ligne '60112' +  Libellé ligne '60113' +  Libellé ligne '603113'+ Libellé ligne '603112'+  Libellé ligne '603111' 
+* Afficher la valeur
+
+D2 : Total des 'Coût total d'aliments (en € HT) intégrant variations de stocks' : Extraire les valeurs indiquées dans les Libellés ligne '60114' + Libellés ligne '603114'
+* Afficher la valeur
+
+D3 : Total des ' Coût Fourrage (en € HT)' : Extraire la valeur indiquée dans le Libellé ligne '6011406'
+* Afficher la valeur
+
+D4 : Total des ' Coût Paille (en € HT) ' : Extraire les valeurs indiquées dans le Libellé ligne '6020' + Libellé ligne '6032”
+* Afficher la valeur
+
+D5 : Total des ' Coût de carburant : GNR (en € HT) intégrant variations de stocks  ' : Extraire les valeurs indiquées dans les Libellés ligne '60118' + Libellé ligne '603118' 
+* Afficher la valeur
+
+
+Extraction des données CHARGES STRUCTURELLES
+
+ETAPE E EXTRACTION DES DONNÉES : SIG (Structure VL - Moyenne).pdf
+
+E1 : Total des ' Coût Sanitaire (en € HT)  ' : Extraire les valeurs indiquées dans les Libellés ligne '60115' + Libellé ligne '622500”
+* Afficher la valeur
+
+E2 : Total des ' Coût de Reproduction (en € HT) ' : Extraire les valeurs indiquées dans les Libellés ligne '605402' + Libellé ligne '60116'
+* Afficher la valeur
+
+E3 : ' Coût du contrôle laitier (en €) ' : Extraire la valeur indiquée dans le Libellé ligne '605401'
+* Afficher la valeur
+
+E4 : Total des ' Montant des fermages (en € HT) ' : Extraire les valeurs indiquées dans les Libellés ligne '6131”
+* Afficher la valeur
+
+E5 : Total des ' Frais de mécanisation (en € HT)' : Extraire les valeurs indiquées dans les Libellés ligne '6155' + Libellé ligne '6163' + Libellé ligne'6132' + Libellé ligne '60618'+  Libellé ligne '612'
+* Afficher la valeur
+
+E6 : Total des ' Rémunération des exploitants (en €) ' : Extraire la valeur indiquée dans le Libellé ligne '64117'
+* Afficher la valeur
+
+E7 : Total des ' Masse salariale (en €) ' : Extraire les valeurs indiquées dans les Libellés ligne '64111' + Libellé ligne '6412' + Libellé ligne '64511' + Libellé ligne '6452”
+* Afficher la valeur
+
+E8 : Total des ' Montant des amortissements (en €) ' : Extraire la valeur indiquée dans le Libellé ligne '681'
+* Afficher la valeur
+
+E9 : Total des ' Montant des charges d'exploitations (en €) ' : Extraire les valeurs indiquées dans les Libellés ligne '60' + Libellé ligne ' 61' + Libellé ligne '62' + Libellé ligne '63' + Libellé ligne '64' + Libellé ligne '65'  + Libellé ligne '68'
+* Afficher la valeur
+
+Extraction des données ÉCONOMIQUES (EBE, revenu disponible …)
+
+ÉTAPE F EXTRACTION DES DONNÉES : SIG (Structure VL - Moyenne).pdf
+
+F1 : ' EBE de l'exploitation (en €) Hors Rémunération Exploitant ' : Extraire les valeurs indiquées dans le Libellé ligne 'Excédent brut d'exploitation' + Libellé ligne '64117'
+* Afficher la valeur
+
+F2 : ' Marge Brute” : Extraire les valeurs indiquées dans les Libellés ligne '70' + Libellé ligne '71” + Libellé ligne '72” + Libellé ligne '73” + Libellé ligne '74'- Libellé ligne '601' - Libellé ligne '602' - Libellé ligne '603' - Libellé ligne '609' 
+* Afficher la valeur
+
+Extraction des données FINANCIÈRES (Emprunts)
+
+ETAPE G EXTRACTION DES DONNÉES : Mouvements emprunts (Structure VL - Moyenne).pdf
+
+
+G1 : Total des ' Annuités d’emprunt” : Extraire la valeur indiquée dans le Libellé ligne 'Total Général' -> colonne “Capital remboursé dans l'exercice”
+* Afficher la valeur
+
+COÛT DE REVIENT
+
+ETAPE H CALCULS :  A partir des données que tu as extrait précédemment et des données que j’ai saisi manuellement, et UNIQUEMENT A PARTIR DE CES DONNÉES, réalise les calculs suivantes : 
+
+H1 : Coût de revient global (en €) à la tonne de lait = [(Montant des charges d'exploitations (en €) / Quantité annuelle de lait livré en coopérative (en litre))*1000]
+* Afficher la valeur
+
+H2 : Coût de revient global (en €) à l’hectare = [Montant des charges d'exploitations (en €) / SURFACE DE L'EXPLOITATION]
+* Afficher la valeur
+
+H3 : Coût de revient global (en €) à l’UGB = [Montant des charges d'exploitations (en €) / Nombre d'UGB (Unité Gros Bovin) présents sur l'exploitation]
+* Afficher la valeur
+
+
+MARGE BRUTE 
+
+ETAPE I CALCULS :  A partir des données que tu as extrait précédemment et des données que j’ai saisi manuellement, et UNIQUEMENT A PARTIR DE CES DONNÉES, réalise les calculs suivantes : 
+
+I1 : Marge Brute (en €) à la tonne de lait (en €) = [Marge Brute / Quantité annuelle de lait livré en coopérative (en litre)*1000]
+* Afficher la valeur
+
+I2 : Marge Brute (en €) par rapport aux produits d’exploitation (en €) = [Marge Brute / Total des Produits d'Exploitation (en €)]
+* Afficher la valeur
+
+
+RENTABILITÉ DE LA STRUCTURE
+
+ETAPE J CALCULS :  A partir des données que tu as extrait précédemment et des données que j’ai saisi manuellement, et UNIQUEMENT A PARTIR DE CES DONNÉES, réalise les calculs suivantes : 
+
+
+J1 : Rentabilité de la structure à la tonne de lait (en €) = [EBE de l'exploitation (en €) Hors Rémunération Exploitant / Quantité annuelle de lait livré en coopérative (en litre)*1000]
+* Afficher la valeur
+
+J2 : Rentabilité de la structure à l’UGB (en €) = [EBE de l'exploitation (en €) Hors Rémunération Exploitant / Nombre d'UGB (Unité Gros Bovin) présents sur l'exploitation]
+* Afficher la valeur
+
+J3 : Rentabilité de la structure à l’UTH (en €) = [EBE de l'exploitation (en €) Hors Rémunération Exploitant / Nombre d'UTH (Unité Travail Humain) ]
+* Afficher la valeur
+
+J4 : Rentabilité de la structure par rapport au Chiffre d’affaires (en €) = [EBE de l'exploitation (en €) Hors Rémunération Exploitant / Chiffres d'affaires de l'exploitation (en € HT ) ]
+* Afficher la valeur
+
+
+REVENUS DISPONIBLES
+
+ETAPE K CALCULS :  A partir des données que tu as extrait précédemment et des données que j’ai saisi manuellement, et UNIQUEMENT A PARTIR DE CES DONNÉES, réalise les calculs suivantes : 
+
+
+K1 : Revenus disponible par exploitant (en €) = [EBE de l'exploitation (en €) Hors Rémunération Exploitant - Total annuités (remboursement capital + intérêt) - (EBE de l'exploitation (en €) Hors Rémunération Exploitant * 10/100) / Nombre d'UTH (Unité Travail Humain)  ]
+* Afficher la valeur
+
+
+RATIOS COMPLÉMENTAIRES
+
+ETAPE L CALCULS :  A partir des données que tu as extrait précédemment et des données que j’ai saisi manuellement, et UNIQUEMENT A PARTIR DE CES DONNÉES, réalise les calculs suivantes : 
+
+L1 : Prix moyen du litre de lait livré (en € HT ) à la tonne de lait = [Chiffre d'affaires - Ventes de Lait réalisées durant l'exercice de référence (en € HT) / Quantité annuelle de lait livré en coopérative (en litre)*1000]
+* Afficher la valeur
+
+L2 : Quantité moyenne de lait livré par Vaches Laitières (en litre) = [Quantité annuelle de lait livré en coopérative (en litre) / Nombre de Vaches Laitières présentes sur l'exploitation ]
+* Afficher la valeur
+
+L3 : Prix de vente moyen des Gros Bovins (en € HT ) = [Chiffre d'affaires - Ventes Gros Bovins réalisées durant l'exercice de référence (en € HT) / Quantité de Gros Bovins Vendus durant l'exercice de référence (en unité) ]
+* Afficher la valeur
+
+L4 : Prix de vente moyen des Jeunes Bovins (en € HT ) = [Chiffre d'affaires - Ventes Jeunes Bovins réalisées durant l'exercice de référence (en € HT) / Quantité de Jeunes Bovins vendus durant l'exercice de référence (en unité) ]
+* Afficher la valeur
+
+L5 : Primes PAC (en € ) à l’hectare = [Montant de la PAC attribuée durant l'exercice (en €) / SURFACE DE L'EXPLOITATION]
+* Afficher la valeur
+
+L6 : Primes PAC (en € ) à l’UGB = [Montant de la PAC attribuée durant l'exercice (en €) / Nombre d'UGB (Unité Gros Bovin) présents sur l'exploitation]
+* Afficher la valeur
+
+
+RATIOS COMPLÉMENTAIRES
+
+ETAPE M CALCULS :  A partir des données que tu as extrait précédemment et des données que j’ai saisi manuellement, et UNIQUEMENT A PARTIR DE CES DONNÉES, réalise les calculs suivantes : 
+
+M1 : Coût des Intrants  (en € HT ) à l’Hectare  = [Coût des intrants (en € HT) intégrant variations de stocks  / SURFACE DE L'EXPLOITATION ]
+* Afficher la valeur
+
+M2 : Coûts des aliments (en € HT ) à l’UGB = [(Coût total d'aliments (en € HT) intégrant variations de stocks + Coût Fourrage (en € HT)) / Nombre d'UGB (Unité Gros Bovin) présents sur l'exploitation]
+* Afficher la valeur
+
+M3 : Coûts des aliments (en € HT ) à la tonne de lait = [(Coût total d'aliments (en € HT) intégrant variations de stocks + Coût Fourrage (en € HT)) /  (Quantité annuelle de lait livré en coopérative (en litre)*1000)]
+* Afficher la valeur
+
+M4 : Quantité d'aliment par VL (en Kilo) = [Quantité d'aliment VL (Vache Laitière) achetée durant l'exercice de référence (en € HT) ? /  Nombre de Vaches Laitières présentes sur l'exploitation]
+* Afficher la valeur
+
+M5 : Coût du GNR  (en € HT ) à l’Hectare  = [Cout de carburant : GNR (en € HT) intégrant variations de stocks / SURFACE DE L'EXPLOITATION ]
+* Afficher la valeur
+
+M6 : GNR - Prix moyen du litre (en € HT )  = [Coût de carburant : GNR (en € HT) intégrant variations de stocks / Quantité de GNR achetée (en litres) durant l'exercice ]
+* Afficher la valeur
+
+
+RATIOS COMPLÉMENTAIRES
+
+ETAPE N CALCULS :  A partir des données que tu as extrait précédemment et des données que j’ai saisi manuellement, et UNIQUEMENT A PARTIR DE CES DONNÉES, réalise les calculs suivantes : 
+
+
+N1 : Coût sanitaire (en € HT) à l’UGB  = [Coût Sanitaire (en € HT) /  Nombre d'UGB (Unité Gros Bovin) présents sur l'exploitation]
+* Afficher la valeur
+
+N2 : Coût sanitaire (en € HT) à la tonne de lait  = [Coût Sanitaire (en € HT) /  Quantité annuelle de lait livré en coopérative (en litre)*1000]
+* Afficher la valeur
+
+N3 : Coût de Reproduction (en € HT )  = [Coût de Reproduction (en € HT) / (Nombre de Vaches Laitières présentes sur l'exploitation + Nombre de Génisses de + 2 ans présentes sur l’exploitation) ]
+* Afficher la valeur
+
+N4 : Coût de contrôle laitier par Vache Laitière (en € HT )  = [Coût du contrôle laitier (en €) / Nombre de Vaches Laitières présentes sur l'exploitation ]
+* Afficher la valeur
+
+N5 : Frais de mécanisation (en € HT ) à l’Hectare  = [Frais de mécanisation (en € HT)  / SURFACE DE L'EXPLOITATION]
+* Afficher la valeur
+
+N6 : Coût du fermages (en € HT ) à l’hectare = [Montant des fermages (en € HT)  / SURFACE DE L'EXPLOITATION]
+* Afficher la valeur
+
+
+RATIOS COMPLÉMENTAIRES
+
+ETAPE O CALCULS :  A partir des données que tu as extrait précédemment et des données que j’ai saisi manuellement, et UNIQUEMENT A PARTIR DE CES DONNÉES, réalise les calculs suivantes : 
+
+
+O1 : Taux de chargement UGB = [Nombre d'UGB (Unité Gros Bovin) présents sur l'exploitation / SURFACE DE L'EXPLOITATION]
+* Afficher la valeur
+
+
+*************************
+FORMAT DE SORTIE :
+Regroupe toutes les valeurs extraites dans un fichier Excel COUT PRODUCTION avec les lignes suivantes :
+
+Total des ' SURFACE DE L'EXPLOITATION  : valeur extraite
+'Montant de la PAC attribuée durant l'exercice (en €)' : valeur extraite
+'Total des Produits d'Exploitation (en €)'  : valeur extraite
+' EBE de l'exploitation (en €) Hors Rémunération Exploitant '  : valeur extraite
+Total des 'Coût total d'aliments (en € HT) intégrant variations de stocks ?'  : valeur extraite
+Total des ' Coût Fourrage (en € HT)'  : valeur extraite
+Total des ' Coût Paille (en € HT) '  : valeur extraite
+Total des ' Coût Sanitaire (en € HT)  '  : valeur extraite
+Total des ' Coût de Reproduction (en € HT) ' : valeur extraite
+Total des ' Coût des intrants (en € HT) intégrant variations de stocks ? '  : valeur extraite
+Total des ' Coût de carburant : GNR (en € HT) intégrant variations de stocks ? ' : valeur extraite
+Total des ' Montant des fermages (en € HT) '  : valeur extraite
+Total des ' Frais de mécanisation (en € HT)' : valeur extraite
+Total des ' Rémunération des exploitants (en €) '  : valeur extraite
+Total des ' Masse salariale (en €) '  : valeur extraite
+Total des ' Montant des charges d'exploitations (en €) ' : valeur extraite
+Total des ' Montant des amortissements (en €) '  : valeur extraite
+Total des ' Chiffres d'affaires de l'exploitation (en € HT ) '  : valeur extraite
+Total des 'Chiffre d'affaires - Ventes de Lait réalisées durant l'exercice de référence (en € HT) '  : valeur extraite
+Total des ' Chiffre d'affaires - Ventes Gros Bovins réalisées durant l'exercice de référence (en € HT) '  : valeur extraite
+Total des ' Chiffre d'affaires - Ventes Jeunes Bovins réalisées durant l'exercice de référence (en € HT) ' :  : valeur extraite
+' Coût du contrôle laitier (en €) '  : valeur extraite
+' Marge Brute ' : valeur extraite
+Coût de revient global (en €) à la tonne de lait  : valeur calculée
+Coût de revient global (en €) à l’hectare  : valeur calculée
+Coût de revient global (en €) à l’UGB  : valeur calculée
+Marge Brute (en €) à la tonne de lait (en €)  : valeur calculée
+Marge Brute (en €) par rapport aux produits d’exploitation (en €)  : valeur calculée
+Rentabilité de la structure à la tonne de lait (en €)  : valeur calculée
+Rentabilité de la structure à l’UGB (en €)  : valeur calculée
+Rentabilité de la structure à l’UTH (en €)  : valeur calculée
+Rentabilité de la structure par rapport au Chiffre d’affaires (en €)  : valeur calculée
+Revenus disponible par exploitant (en €)  : valeur calculée
+Taux de chargement UGB : valeur calculée
+Coûts des aliments (en € HT ) à l’UGB : valeur calculée
+Coûts des aliments (en € HT ) à la tonne de lait : valeur calculée
+Quantité d'aliment par VL (en Kilo): valeur calculée
+Coût sanitaire (en € HT) à l’UGB: valeur calculée
+Coût sanitaire (en € HT) à la tonne de lait  : valeur calculée
+Coût sanitaire (en € HT) à la tonne de lait  : valeur calculée
+Cout de controle laitier par Vache Laitière (en € HT ) : valeur calculée
+Cout du GNR  (en € HT ) à l’Hectare : valeur calculée
+GNR - Prix moyen du litre (en € HT ) : valeur calculée
+Cout des Intrants  (en € HT ) à l’Hectare : valeur calculée
+Frais de mécanisation (en € HT ) à l’Hectare  : valeur calculée
+Coût du fermages (en € HT ) à l’hectare : valeur calculée
+Prix moyen du litre de lait livré (en € HT ) à la tonne de lait : valeur calculée
+Quantité moyenne de lait livré par Vaches Laitières (en litre) : valeur calculée
+Prix de vente moyen des Gros Bovins (en € HT ) : valeur calculée
+Prix de vente moyen des Jeunes Bovins (en € HT ) : valeur calculée
+Primes PAC (en € ) à l’hectare : valeur calculée
+Primes PAC (en € ) à l’UGB: valeur calculée
+
 
 Voici l'historique des messages : {messages}
 Les attentes de l'utilisateur sont : {query}
