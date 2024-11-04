@@ -1,15 +1,7 @@
 prompts:
   general:
     - "Quels sont les principaux défis auxquels les agriculteurs sont confrontés aujourd'hui ?"
-    - "Explique-moi les différences entre l'agriculture biologique et l'agriculture conventionnelle."
-    - "Comment l'agriculture contribue-t-elle à la lutte contre le changement climatique ?"
-    - "Quels sont les avantages et inconvénients des OGM dans l'agriculture ?"
 
-  techniques:
-    - "Comment fonctionne la rotation des cultures et pourquoi est-elle importante ?"
-    - "Explique les avantages de l'irrigation goutte à goutte pour les cultures."
-    - "Quels sont les types de fertilisants les plus utilisés en agriculture et leurs impacts ?"
-    - "Quelles sont les techniques de lutte biologique contre les nuisibles ?"
 
 
 
@@ -121,18 +113,19 @@ On te fournit des documents confidentiels d'une exploitation agricole afin d'ext
 
 RESSOURCES :
 Procède par étape en analysant les documents ci-dessous : 
-* SIG (Structure VL - Petite).pdf
-* Assolement PAC (Structure VL - Petite).pdf
-* Mouvements emprunts (Structure VL - Petite).pdf
+* SIG (Structure VL - Moyenne).pdf
+* Assolement PAC (Structure VL - Moyenne).pdf
+* Mouvements emprunts (Structure VL - Moyenne).pdf
 
 Voici les données des documents ci-dessus : {documentContext}
 
 OBJECTIF :
 Extraire rigoureusement les valeurs recherchées décrites dans la section 'ETAPES' sans aucun risque d'erreur.
+Pour chaque extraction, rappel le libellé et met le numéro de ligne/libellé entre parenthèses pour faciliter la vérification.
 
 CONTRAINTE :
 Si tu ne parviens pas à extraire les valeurs ou si il y a un risque d'erreur, alors dis - le afin que je puisse t'aider à les extraire.
-Si tu ne trouves pas de donnée en colonne [31/12/2023] ne prends rien
+Si tu ne trouves pas de donnée en colonne {date_fin_exercice} ne prends rien
 
 
 ETAPE A : Prends en compte et mémorise les données ci-dessous afin que tu puisses les utiliser dans les prochains calculs :

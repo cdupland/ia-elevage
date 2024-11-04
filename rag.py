@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
 from langchain_mistralai.chat_models import ChatMistralAI
 from langchain_mistralai.embeddings import MistralAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain.schema.output_parser import StrOutputParser
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -11,6 +12,7 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores.utils import filter_complex_metadata
 from langchain_community.document_loaders.csv_loader import CSVLoader
+from transformers import pipeline  # For document summarization
 
 from util import getYamlConfig
 
@@ -28,8 +30,8 @@ class Rag:
 
     def __init__(self, vectore_store=None):
         
-        # self.model = ChatMistralAI(model=llm_model)
-        self.embedding = MistralAIEmbeddings(model="mistral-embed", mistral_api_key=env_api_key)
+        # self.embedding = MistralAIEmbeddings(model="mistral-embed", mistral_api_key=env_api_key)
+        self.embedding = OpenAIEmbeddings(model="text-embedding-ada-002")
 
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100, length_function=len)
         
@@ -63,23 +65,35 @@ class Rag:
         return self.vector_store.getDocs()
 
     def ingest(self, pdf_file_path: str):
+        summarizer = pipeline("summarization")
         docs = PyPDFLoader(file_path=pdf_file_path).load()
-       
-        chunks = self.text_splitter.split_documents(docs)
-        chunks = filter_complex_metadata(chunks)
+        
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=100, length_function=len)
+        chunks = text_splitter.split_documents(docs)
+
+        # chunks = filter_complex_metadata(chunks)
+
+        # Add summaries and generate embeddings
+        enhanced_chunks = []
+        for chunk in chunks:
+            # Summarize the chunk for additional metadata context
+            summary = summarizer(chunk.page_content, max_length=50, min_length=25, do_sample=False)[0]['summary_text']
+            chunk.metadata['summary'] = summary
+            enhanced_chunks.append(chunk)
+
 
         if self.document_vector_store is None:
-            self.document_vector_store = FAISS.from_documents(chunks, self.embedding)
+            self.document_vector_store = FAISS.from_documents(enhanced_chunks, self.embedding)
         else:
-            self.document_vector_store.add_documents(chunks)
+            self.document_vector_store.add_documents(enhanced_chunks)
 
         # Ajout des documents dans la liste `all_documents`
-        self.all_documents.extend(chunks)
+        self.all_documents.extend(enhanced_chunks)
         
         self.retriever = self.document_vector_store.as_retriever(
             search_type="similarity_score_threshold",
             search_kwargs={
-                "k": 3,
+                "k": 10,
                 "score_threshold": 0.5,
             },
         )
