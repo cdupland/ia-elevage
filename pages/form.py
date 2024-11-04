@@ -40,7 +40,7 @@ def display_field(field):
         value = st.date_input(field['label'], key=field['key'])
         field['value'] = value
     elif field['nature'] == 'numeric':
-        value = st.number_input(field['label'], key=field['key'])
+        value = st.number_input(field['label'], value=field['value'], key=field['key'])
         field['value'] = value
     elif field['nature'] == 'text_area':
         value = st.text_area(field['label'], value=field['value'] if 'value' in field else "", key=field['key'])
