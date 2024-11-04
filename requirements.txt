@@ -22,3 +22,4 @@ st_copy_to_clipboard
 faiss-gpu
 faiss-cpu
 transformers
+torch
