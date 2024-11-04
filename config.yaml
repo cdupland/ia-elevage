@@ -1,15 +1,7 @@
 prompts:
   general:
-    - "Quels sont les principaux défis auxquels les agriculteurs sont confrontés aujourd'hui ?"
+    - "Lance mon calcul"
 
-
-
-
-# Version 2 : Structure de 'parts' pour organiser les champs en sections
-# ----------------------------------------------------------------------
-# Chaque 'part' représente une section contenant un groupe de champs (par exemple : Panier, Livraison).
-# La clé 'number' permet d’ordonner les sections.
-# Pour activer cette version, commentez la Version 1 ci-dessus et décommentez cette section.
 
 variables:
   parts:
@@ -34,13 +26,13 @@ variables:
         - label: "Nombre d'UTH (Unité Travail Humain)"
           nature: 'numeric'
           key: nombre_uth
-          value: 2
+          value: 3
 
         - label: "Choix du type de Spécificités et/ou Certifications"
           nature: 'selectbox'
           key: type_spec_certifications
-          options: ["Bio Oui Totale", "Bio Partielle", "Conventionnelle"]
-          value: "Bio Oui Totale"
+          options: ["Aucune", "Bio Oui Totale", "Bio Partielle", "Conventionnelle"]
+          value: "Aucune"
 
         - label: "Choix du type d'élevage"
           nature: 'selectbox'
@@ -60,42 +52,42 @@ variables:
         - label: "Nombre d’UGB (Unité Gros Bovins) présents sur l’exploitation"
           nature: 'numeric'
           key: nombre_ugb
-          value: 39.57
+          value: 157.54
 
         - label: "Nombre de VL (Vache laitière) présentes sur l’exploitation"
           nature: 'numeric'
           key: nombre_vl
-          value: 34.27
+          value: 94.29
 
         - label: "Nombre de Génisses de +2 ans présentes sur l’exploitation"
           nature: 'numeric'
           key: nombre_genisses_plus_2ans
-          value: 1.33
+          value: 34.43
 
         - label: "Quantité de GNR achetée (en litres) durant l'exercice (incluant les stocks)"
           nature: 'numeric'
           key: quantite_gnr
-          value: 2584  # Calcul : 1884 + 1000 - 300
+          value: 16702  # Calcul =17002+500-800
 
         - label: "Quantité annuelle de lait livré en coopérative (en litre)"
           nature: 'numeric'
           key: quantite_lait_cooperative
-          value: 191411
+          value: 485903
 
         - label: "Quantité d'aliment VL (Vache Laitière) achetée durant l'exercice de référence (en € HT)"
           nature: 'numeric'
           key: quantite_aliment_vl
-          value: 57080
+          value: 108394
 
         - label: "Quantité de Gros Bovins Vendus durant l'exercice de référence (en unité)"
           nature: 'numeric'
           key: quantite_gros_bovins_vendus
-          value: 2
+          value: 25
 
         - label: "Quantité de Jeunes Bovins vendus durant l'exercice de référence (en unité)"
           nature: 'numeric'
           key: quantite_jeunes_bovins_vendus
-          value: 30
+          value: 52
 
 
 
@@ -121,7 +113,6 @@ Voici les données des documents ci-dessus : {documentContext}
 
 OBJECTIF :
 Extraire rigoureusement les valeurs recherchées décrites dans la section 'ETAPES' sans aucun risque d'erreur.
-Pour chaque extraction, rappel le libellé et met le numéro de ligne/libellé entre parenthèses pour faciliter la vérification.
 
 CONTRAINTE :
 Si tu ne parviens pas à extraire les valeurs ou si il y a un risque d'erreur, alors dis - le afin que je puisse t'aider à les extraire.
