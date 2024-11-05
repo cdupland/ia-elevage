@@ -26,7 +26,7 @@ class Rag:
     retriever = None
     chain = None
     readableModelName = ""
-    all_documents = []  # Attribut pour stocker les documents injectés
+    all_files = []
 
     def __init__(self, vectore_store=None):
         
@@ -64,7 +64,7 @@ class Rag:
     def getDbFiles(self):
         return self.vector_store.getDocs()
 
-    def ingest(self, pdf_file_path: str):
+    def ingest(self, pdf_file_path: str, original_file_name: str):
         summarizer = pipeline("summarization")
         docs = PyPDFLoader(file_path=pdf_file_path).load()
         
@@ -87,8 +87,8 @@ class Rag:
         else:
             self.document_vector_store.add_documents(enhanced_chunks)
 
-        # Ajout des documents dans la liste `all_documents`
-        self.all_documents.extend(enhanced_chunks)
+        # Ajout des documents dans la liste `all_files`
+        self.all_files.append({ 'filename': original_file_name, 'contents': enhanced_chunks })
         
         self.retriever = self.document_vector_store.as_retriever(
             search_type="similarity_score_threshold",
@@ -102,6 +102,10 @@ class Rag:
     def list_documents(self):
         """Retourne tous les documents injectés."""
         return [doc for doc in self.all_documents]
+
+    def list_files(self):
+        """Retourne tous les documents injectés."""
+        return [doc for doc in self.all_files]
 
 
     def ask(self, query: str, prompt_system: str, messages: list, variables: list = None):

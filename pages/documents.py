@@ -12,7 +12,7 @@ def read_and_save_file():
             file_path = tf.name
 
         with st.session_state["ingestion_spinner"], st.spinner(f"Chargement {file.name}"):
-            st.session_state["assistant"].ingest(file_path)
+            st.session_state["assistant"].ingest(file_path, file.name)
         os.remove(file_path)
 
 
@@ -33,7 +33,9 @@ def page():
     st.session_state["ingestion_spinner"] = st.empty()
 
 
-    for doc in st.session_state["assistant"].list_documents():
-        st.write(doc)
+    for doc in st.session_state["assistant"].list_files():
+        with st.expander(doc["filename"]):
+            for value in doc["contents"]:
+                st.write(value)
 
 page()
