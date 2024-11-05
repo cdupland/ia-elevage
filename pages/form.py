@@ -24,14 +24,14 @@ def page():
         tabs = st.tabs([part['name'] for part in parts_sorted])
         for part, tab in zip(parts_sorted, tabs):
             with tab:
-                for i, field in enumerate(part['fields']):
-                    display_field(field, i)
+                for field in part['fields']:
+                    display_field(field)
     else:
         # Display fields directly si aucune partie définie
-        for i, field in enumerate(st.session_state.data_dict):
-            display_field(field, i)
+        for field in st.session_state.data_dict:
+            display_field(field)
 
-def display_field(field, i):
+def display_field(field):
     """Helper function to create the correct input based on field 'nature'."""
     key = field['key']
     if field['nature'] == 'radio':
