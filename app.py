@@ -38,7 +38,25 @@ def init_app():
             # Initialize session state with single list of variables
             st.session_state["data_dict"] = [{**field} for field in config["variables"]]
 
-
+def getStructure():
+    
+    if st.session_state.type == "beef_cattle":
+        # Bovins Viande
+        return {
+            "Petite": "small",
+            "GAEC": "gaec",
+            "GAEC Bis": "gaec_bis",
+        }
+    
+    elif st.session_state.type == "dairy_cattle":
+        # Bovins Lait
+        return {
+            "Petite": "small",
+            "Moyenne": "medium",
+            "Hors zone": "out"
+        }
+    
+    
 def main():
 
     init_app()
@@ -67,8 +85,27 @@ def main():
             "Dialogue": [
                 chatbot
             ],
-        }
+        },
+        expanded=True
     )
+
+    with st.sidebar:
+        st.write("**Configuration**")
+
+
+        # Type
+        type_options = {
+            "Bovins Viande": "beef_cattle",
+            "Bovins Lait": "dairy_cattle"
+        }
+        selected_type_label = st.radio("Type", list(type_options.keys()))
+        st.session_state["type"] = type_options[selected_type_label]
+
+
+        # Structure
+        structure_options = getStructure()
+        selected_structure_label = st.selectbox("Structure", list(structure_options.keys()))
+        st.session_state["structure"] = structure_options[selected_structure_label]
 
     pg.run()
 
