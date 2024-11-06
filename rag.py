@@ -80,26 +80,30 @@ class Rag:
         enhanced_chunks = []
         i = 1
         
-        for chunk in chunks:
-            # Summarize the chunk for additional metadata context
-            print(f"Summarizing chunk {str(i)} / {str(len(chunks))}")
-            summary = summarizer(chunk.page_content, max_length=50, min_length=25, do_sample=False)[0]['summary_text']
-            chunk.metadata['summary'] = summary
-            enhanced_chunks.append(chunk)
-            i += 1
+        # for chunk in chunks:
+        #     # Summarize the chunk for additional metadata context
+        #     print(f"Summarizing chunk {str(i)} / {str(len(chunks))}")
+        #     summary = summarizer(chunk.page_content, max_length=50, min_length=25, do_sample=False)[0]['summary_text']
+        #     chunk.metadata['summary'] = summary
+        #     enhanced_chunks.append(chunk)
+        #     i += 1
 
 
         if self.document_vector_store is None:
-            self.document_vector_store = FAISS.from_documents(enhanced_chunks, self.embedding)
+            self.document_vector_store = FAISS.from_documents(chunks, self.embedding)
         else:
-            self.document_vector_store.add_documents(enhanced_chunks)
+            self.document_vector_store.add_documents(chunks)
 
         # Ajout des documents dans la liste `all_files`
-        self.all_files.append({ 'filename': original_file_name, 'contents': enhanced_chunks })
+        self.all_files.append({ 'filename': original_file_name, 'contents': chunks })
         
         print("As retriever")
         self.retriever = self.document_vector_store.as_retriever(
-            search_type="similarity"
+            search_type="similarity_score_threshold",
+            search_kwargs={
+                "k": 10,
+                "score_threshold": 0.1,
+            },
         )
 
 
