@@ -13,7 +13,6 @@ from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores.utils import filter_complex_metadata
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from transformers import pipeline  # For document summarization
-import numpy as np
 
 from util import getYamlConfig
 
@@ -31,8 +30,8 @@ class Rag:
 
     def __init__(self, vectore_store=None):
         
-        self.embedding = MistralAIEmbeddings(model="mistral-embed", mistral_api_key=env_api_key)
-        # self.embedding = OpenAIEmbeddings(model="text-embedding-ada-002")
+        # self.embedding = MistralAIEmbeddings(model="mistral-embed", mistral_api_key=env_api_key)
+        self.embedding = OpenAIEmbeddings(model="text-embedding-ada-002")
 
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100, length_function=len)
         
@@ -79,10 +78,11 @@ class Rag:
         # Add summaries and generate embeddings
         print("For each chunk")
         enhanced_chunks = []
-        i = 0
+        i = 1
+        
         for chunk in chunks:
             # Summarize the chunk for additional metadata context
-            print(f"Summarizing chunk {str(i)}")
+            print(f"Summarizing chunk {str(i)} / {str(len(chunks))}")
             summary = summarizer(chunk.page_content, max_length=50, min_length=25, do_sample=False)[0]['summary_text']
             chunk.metadata['summary'] = summary
             enhanced_chunks.append(chunk)
@@ -99,7 +99,7 @@ class Rag:
         
         print("As retriever")
         self.retriever = self.document_vector_store.as_retriever(
-            search_type="similarity_score_threshold"
+            search_type="similarity"
         )
 
 
@@ -119,7 +119,7 @@ class Rag:
         if self.retriever is None:
             documentContext = ''
         else:
-            documentContext = self.retriever.invoke(query,kwargs={"score_threshold": 0.2})
+            documentContext = self.retriever.invoke(query)
 
         print(documentContext)
 
