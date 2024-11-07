@@ -24,13 +24,20 @@ if "type" in st.session_state and "structure" in st.session_state:
         prompt_id, current_type, current_structure, current_prompt = selected_prompt
 
 
-        # Champ pour le prompt
-        new_prompt = st.text_area(" ", current_prompt)
+        # Champ pour le prompt avec redimensionnement automatique
+        new_prompt = st.text_area(" ", current_prompt, height=400, max_chars=None)
 
         # Bouton pour sauvegarder les modifications
         if st.button("Sauvegarder les modifications"):
             db.update_prompt(prompt_id, current_type, current_structure, new_prompt)
             st.success("Les modifications ont été enregistrées.")
+
+
+        # Liste de paramètres disponibles
+        st.subheader("Paramètres disponibles")
+        for param in st.session_state.data_dict:
+            st.write(f"{param["label"]} : {param["key"]}")
+
 
     else:
         st.warning("Aucun enregistrement trouvé avec les filtres actuels.")
