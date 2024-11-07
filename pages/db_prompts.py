@@ -6,7 +6,7 @@ db = DatabaseHandler()
 
 
 # Vue Streamlit
-st.title("Modifier un enregistrement dans la base de données")
+st.subheader("Modifier un enregistrement dans la base de données")
 
 
 # Vérification des éléments en session pour le type et la structure
