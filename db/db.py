@@ -97,11 +97,16 @@ class DatabaseHandler:
             cursor = conn.cursor()
             query = "UPDATE prompts SET "
             fields = []
+            params = []
             if type_:
-                fields.append(f"type = '{type_}'")
+                fields.append("type = ?")
+                params.append(type_)
             if structure:
-                fields.append(f"structure = '{structure}'")
+                fields.append("structure = ?")
+                params.append(structure)
             if prompt:
-                fields.append(f"prompt = '{prompt}'")
+                fields.append("prompt = ?")
+                params.append(prompt)
             query += ", ".join(fields) + " WHERE id = ?;"
-            cursor.execute(query, (prompt_id,))
+            params.append(prompt_id)
+            cursor.execute(query, params)

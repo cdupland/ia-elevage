@@ -1,5 +1,6 @@
 import os
 
+import streamlit as st
 from dotenv import load_dotenv
 from langchain_community.vectorstores import FAISS
 from langchain_mistralai.chat_models import ChatMistralAI
@@ -15,7 +16,9 @@ from langchain_community.document_loaders.csv_loader import CSVLoader
 from transformers import pipeline  # For document summarization
 
 from util import getYamlConfig
+from db.db import DatabaseHandler
 
+db = DatabaseHandler()
 
 # load .env in local dev
 load_dotenv()
@@ -115,9 +118,24 @@ class Rag:
         """Retourne tous les documents injectés."""
         return [doc for doc in self.all_files]
 
+    def getPromptTemplateFromDB(self, type_, structure_):
+        
+        id, type, structure, prompt = db.get_prompt_by_filters(type_, structure_)
+
+        prompt += """
+            Voici l'historique des messages : {messages}
+            Les attentes de l'utilisateur sont : {query}
+        """
+
+        return PromptTemplate.from_template(prompt)
 
     def ask(self, query: str, prompt_system: str, messages: list, variables: list = None):
-        self.chain = self.prompt | self.model | StrOutputParser()
+
+        template = self.getPromptTemplateFromDB(st.session_state["type"], st.session_state["structure"])
+        print(template)
+        print("Asking ")
+
+        self.chain = template | self.model | StrOutputParser()
         
         # Retrieve the context document
         if self.retriever is None:
@@ -125,7 +143,6 @@ class Rag:
         else:
             documentContext = self.retriever.invoke(query)
 
-        print(documentContext)
 
         # Retrieve the VectoreStore
         contextCommon = self.vector_store.retriever(query, self.embedding)
