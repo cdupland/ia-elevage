@@ -37,7 +37,7 @@ if "type" in st.session_state and "structure" in st.session_state:
         st.subheader("Paramètres disponibles")
         for param in st.session_state.data_dict:
             if 'key' in param and 'label' in param and param['key'] is not None:
-                st.write(f"{param["label"]} : {param["key"]}")
+                st.write(f"{param['label']} : {param['key']}")
 
 
     else:
