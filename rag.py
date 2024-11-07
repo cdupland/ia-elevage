@@ -132,8 +132,6 @@ class Rag:
     def ask(self, query: str, prompt_system: str, messages: list, variables: list = None):
 
         template = self.getPromptTemplateFromDB(st.session_state["type"], st.session_state["structure"])
-        print(template)
-        print("Asking ")
 
         self.chain = template | self.model | StrOutputParser()
         
