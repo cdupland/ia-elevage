@@ -25,7 +25,7 @@ if "type" in st.session_state and "structure" in st.session_state:
 
 
         # Champ pour le prompt
-        new_prompt = st.text_area("", current_prompt)
+        new_prompt = st.text_area(" ", current_prompt)
 
         # Bouton pour sauvegarder les modifications
         if st.button("Sauvegarder les modifications"):
