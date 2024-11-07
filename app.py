@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from rag import Rag
 from vectore_store.PineconeConnector import PineconeConnector
 from vectore_store.VectoreStoreManager import VectoreStoreManager
+from db.db import DatabaseHandler
 
 from util import getYamlConfig
 
@@ -14,6 +15,8 @@ GROUP_NAME = os.environ.get("APP_NAME")
 LOGO = "assets/logo.png"
 
 def init_app():
+    # Instanciation de la base de données
+    db = DatabaseHandler()
 
     config = getYamlConfig()
 
@@ -72,6 +75,8 @@ def main():
     form = st.Page("pages/form.py", title="Paramètres", icon="📋")
     chatbot = st.Page("pages/chatbot.py", title="Chatbot", icon="🤖")
 
+    db_prompts = st.Page("pages/db_prompts.py", title="Prompt Template", icon="📋")
+
     pg = st.navigation(
         {
             "Documents": [
@@ -81,6 +86,7 @@ def main():
             "Configurations": [
                 prompt_system,
                 form,
+                db_prompts
             ],
             "Dialogue": [
                 chatbot
