@@ -75,7 +75,7 @@ def main():
     form = st.Page("pages/form.py", title="Paramètres", icon="📋")
     chatbot = st.Page("pages/chatbot.py", title="Chatbot", icon="🤖")
 
-    db_prompts = st.Page("pages/db_prompts.py", title="Prompt Template", icon="📋")
+    db_prompts = st.Page("pages/db_prompts.py", title="Prompts système", icon="🖊️")
 
     pg = st.navigation(
         {
@@ -84,9 +84,8 @@ def main():
                 documents,
             ],
             "Configurations": [
-                prompt_system,
+                db_prompts,
                 form,
-                db_prompts
             ],
             "Dialogue": [
                 chatbot
