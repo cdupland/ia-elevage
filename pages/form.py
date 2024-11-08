@@ -1,12 +1,16 @@
-# python
 import streamlit as st
 from util import getYamlConfig
 
-def update_session_state(key):
+def update_session_state(key,):
+    # Get new value from session state and change key for save it in params
+    new_value = st.session_state[key]
+    key = key[5:]
+    
     for item in st.session_state.data_dict:
         if item['key'] == key:
-            item['value'] = st.session_state[key]
+            item['value'] = new_value
             break
+
 
 def page():
     st.subheader("Définissez vos paramètres")
@@ -25,28 +29,78 @@ def page():
         for part, tab in zip(parts_sorted, tabs):
             with tab:
                 for field in part['fields']:
-                    display_field(field)
+                    for field_session in st.session_state.data_dict:
+                        if field['key'] == field_session['key']:
+                            display_field(field_session)
     else:
-        # Display fields directly si aucune partie définie
+        # Display fields directly if no parts are defined
         for field in st.session_state.data_dict:
             display_field(field)
 
+
 def display_field(field):
     """Helper function to create the correct input based on field 'nature'."""
-    key = field['key']
+    key = 'form_' + field['key']
     if field['nature'] == 'radio':
-        st.radio(field['label'], field['options'], key=key, on_change=update_session_state, args=(key,))
+        st.radio(
+            field['label'],
+            field['options'],
+            index=field['options'].index(field.get('value')) if field.get('value') in field['options'] else 0,
+            key=key,
+            on_change=update_session_state,
+            args=(key,)
+        )
+
     elif field['nature'] == 'selectbox':
-        st.selectbox(field['label'], field['options'], key=key, on_change=update_session_state, args=(key,))
+        st.selectbox(
+            field['label'], 
+            field['options'], 
+            index=field['options'].index(field.get('value')) if field.get('value') in field['options'] else 0, 
+            key=key, 
+            on_change=update_session_state,
+            args=(key,)
+        )
+
     elif field['nature'] == 'multiselect':
-        st.multiselect(field['label'], field['options'], key=key, on_change=update_session_state, args=(key,))
+        st.multiselect(
+            field['label'], 
+            field['options'], 
+            default=[field['options'].index(value) for value in field.get('value') if value in field['options']], 
+            key=key, 
+            on_change=update_session_state,
+            args=(key,)
+        )
     elif field['nature'] == 'date':
-        st.date_input(field['label'], key=key, on_change=update_session_state, args=(key,))
+        st.date_input(
+            field['label'], 
+            value=field.get('value', None),
+            key=key, 
+            on_change=update_session_state,
+            args=(key,)
+        )
+
     elif field['nature'] == 'numeric':
-        st.number_input(field['label'], value=field.get('value', 0), key=key, on_change=update_session_state, args=(key,))
+        st.number_input(field['label'], 
+            value=field.get('value', 0), 
+            key=key, 
+            on_change=update_session_state,
+            args=(key,)
+        )
+
     elif field['nature'] == 'text_area':
-        st.text_area(field['label'], value=field.get('value', ""), key=key, on_change=update_session_state, args=(key,))
+        st.text_area(field['label'], 
+            value=field.get('value', ""), 
+            key=key, 
+            on_change=update_session_state,
+            args=(key,)
+        )
+
     else:
-        st.text_input(label=field['label'], value=field.get('value', ""), key=key, on_change=update_session_state, args=(key,))
+        st.text_input(label=field['label'], 
+            value=field.get('value', ""), 
+            key=key, 
+            on_change=update_session_state,
+            args=(key,)
+        )
 
 page()
