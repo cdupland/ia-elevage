@@ -11,12 +11,12 @@ variables:
         - label: "Date de début de l'exercice"
           nature: 'date'
           key: date_debut_exercice
-          value: "2023-01-01"
+          value: 
 
         - label: "Date de fin de l'exercice"
           nature: 'date'
           key: date_fin_exercice
-          value: "2023-12-31"
+          value: 
 
         - label: "Adresse de l'exploitant (Code postal)"
           nature: 'text'
