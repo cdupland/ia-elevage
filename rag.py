@@ -143,7 +143,7 @@ class Rag:
 
 
         # Retrieve the VectoreStore
-        # contextCommon = self.vector_store.retriever(query, self.embedding)
+        contextCommon = '' # self.vector_store.retriever(query, self.embedding)
 
         # Dictionnaire de base avec les variables principales
         chain_input = {
