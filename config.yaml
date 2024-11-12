@@ -21,12 +21,12 @@ variables:
         - label: "Adresse de l'exploitant (Code postal)"
           nature: 'text'
           key: adresse_exploitant_code_postal
-          value: "39210"
+          value: 
 
         - label: "Nombre d'UTH (Unité Travail Humain)"
           nature: 'numeric'
           key: nombre_uth
-          value: 3
+          value: 
 
         - label: "Choix du type de Spécificités et/ou Certifications"
           nature: 'selectbox'
@@ -34,11 +34,11 @@ variables:
           options: ["Aucune", "Bio Oui Totale", "Bio Partielle", "Conventionnelle"]
           value: "Aucune"
 
-        - label: "Choix du type d'élevage"
-          nature: 'selectbox'
-          key: type_elevage
-          options: ["Élevage Bovin Lait", "Élevage Bovin Viande"]
-          value: "Élevage Bovin Lait"
+        # - label: "Choix du type d'élevage"
+        #   nature: 'selectbox'
+        #   key: type_elevage
+        #   options: ["Élevage Bovin Lait", "Élevage Bovin Viande"]
+        #   value: "Élevage Bovin Lait"
 
         - label: "Choix du type d'élevage – Lait AOP"
           nature: 'radio'
@@ -52,42 +52,47 @@ variables:
         - label: "Nombre d’UGB (Unité Gros Bovins) présents sur l’exploitation"
           nature: 'numeric'
           key: nombre_ugb
-          value: 157.54
+          value: 
 
         - label: "Nombre de VL (Vache laitière) présentes sur l’exploitation"
           nature: 'numeric'
           key: nombre_vl
-          value: 94.29
+          value: 
 
         - label: "Nombre de Génisses de +2 ans présentes sur l’exploitation"
           nature: 'numeric'
           key: nombre_genisses_plus_2ans
-          value: 34.43
+          value: 
 
         - label: "Quantité de GNR achetée (en litres) durant l'exercice (incluant les stocks)"
           nature: 'numeric'
           key: quantite_gnr
-          value: 16702  # Calcul =17002+500-800
+          value: 
 
         - label: "Quantité annuelle de lait livré en coopérative (en litre)"
           nature: 'numeric'
           key: quantite_lait_cooperative
-          value: 485903
+          value: 
+          condition:
+            type: session
+            key: type
+            value: "dairy_cattle"
+
 
         - label: "Quantité d'aliment VL (Vache Laitière) achetée durant l'exercice de référence (en € HT)"
           nature: 'numeric'
           key: quantite_aliment_vl
-          value: 108394
+          value: 
 
         - label: "Quantité de Gros Bovins Vendus durant l'exercice de référence (en unité)"
           nature: 'numeric'
           key: quantite_gros_bovins_vendus
-          value: 25
+          value: 
 
         - label: "Quantité de Jeunes Bovins vendus durant l'exercice de référence (en unité)"
           nature: 'numeric'
           key: quantite_jeunes_bovins_vendus
-          value: 52
+          value: 
 
 
 

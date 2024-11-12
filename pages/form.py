@@ -17,7 +17,7 @@ def page():
 
     # Charge la configuration YAML
     config = getYamlConfig()
-    
+
     # Vérifie si la structure inclut des 'parts' ou une liste de variables
     if 'parts' in config['variables']:
         # Cas avec 'parts' : Trie les parts et affiche les champs par onglet
@@ -32,14 +32,36 @@ def page():
                     for field_session in st.session_state.data_dict:
                         if field['key'] == field_session['key']:
                             display_field(field_session)
+
+                if st.button(f"Réinitialiser {part['name']}"):
+                    resetForm(part['name'])
     else:
         # Display fields directly if no parts are defined
         for field in st.session_state.data_dict:
             display_field(field)
+    
 
+    if st.button("Réinitialisation complète"):
+        resetForm()
+
+def check_field_condition(field):
+    condition = field.get('condition', None)
+
+    if condition is None:
+        return True
+    
+    if condition.get('type') == 'session':
+        return st.session_state[condition.get('key')] == condition.get('value')
+    
+
+    return False
 
 def display_field(field):
     """Helper function to create the correct input based on field 'nature'."""
+
+    if(check_field_condition(field) == False):
+        return
+
     key = 'form_' + field['key']
     if field['nature'] == 'radio':
         st.radio(
@@ -102,5 +124,14 @@ def display_field(field):
             on_change=update_session_state,
             args=(key,)
         )
+
+def resetForm(section: str = None):
+    
+    for field in st.session_state.data_dict:
+        if section is None or section == field['part']:
+            field['value'] = None
+
+    st.rerun()
+
 
 page()
