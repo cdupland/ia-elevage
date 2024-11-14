@@ -2,7 +2,7 @@ prompts:
   general:
     - "Lance mon calcul complet"
     - "Donne-moi uniquement le format de sortie en extrayant et calculant les valeurs"
-    - "Donne-moi la partie C en extrayant les valeurs"
+    - "Donne-moi la partie C avec les valeurs extraite"
 
 
 variables:
