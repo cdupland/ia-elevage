@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import datetime
 from util import getYamlConfig
 
 def update_session_state(key,):
@@ -93,9 +94,16 @@ def display_field(field):
             args=(key,)
         )
     elif field['nature'] == 'date':
+        date_str = field.get('value', None)
+        # Conversion de la chaîne en date, si nécessaire
+        if isinstance(date_str, str):
+            date_value = datetime.strptime(date_str, "%Y-%m-%d").date()
+        else:
+            date_value = date_str
+            
         st.date_input(
             field['label'], 
-            value=field.get('value', None),
+            value=date_value,
             key=key, 
             on_change=update_session_state,
             args=(key,)
