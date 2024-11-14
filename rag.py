@@ -123,6 +123,10 @@ class Rag:
         id, type, structure, prompt = db.get_prompt_by_filters(type_, structure_)
 
         prompt += """
+        
+            A la fin de chaque demande, indique un taux de réussite sur les valeurs que tu as réussis à extraire.
+            Ensuite, si besoin, liste les paramètres dont tu as besoin pour compléter tes calculs.
+
             Voici l'historique des messages : {messages}
             Les attentes de l'utilisateur sont : {query}
         """
