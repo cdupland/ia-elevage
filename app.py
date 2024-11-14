@@ -69,34 +69,8 @@ def main():
     st.logo(LOGO)
     st.title(GROUP_NAME)
 
-    saved_documents = st.Page("pages/persistent_documents.py", title="Communs", icon="🗃️")
-    documents = st.Page("pages/documents.py", title="Vos documents", icon="📂")
-    prompt_system = st.Page("pages/prompt_system.py", title="Prompt système", icon="🖊️", default=True)
-    form = st.Page("pages/form.py", title="Paramètres", icon="📋")
-    chatbot = st.Page("pages/chatbot.py", title="Chatbot", icon="🤖")
-
-    db_prompts = st.Page("pages/db_prompts.py", title="Prompts système", icon="🖊️")
-
-    pg = st.navigation(
-        {
-            "Documents": [
-                saved_documents,
-                documents,
-            ],
-            "Configurations": [
-                db_prompts,
-                form,
-            ],
-            "Dialogue": [
-                chatbot
-            ],
-        },
-        expanded=True
-    )
-
     with st.sidebar:
         st.write("**Configuration**")
-
 
         # Type
         type_options = {
@@ -106,14 +80,10 @@ def main():
         selected_type_label = st.radio("Type", list(type_options.keys()))
         st.session_state["type"] = type_options[selected_type_label]
 
-
         # Structure
         structure_options = getStructure()
         selected_structure_label = st.selectbox("Structure", list(structure_options.keys()))
         st.session_state["structure"] = structure_options[selected_structure_label]
-
-    pg.run()
-
 
 if __name__ == "__main__":
     main()
