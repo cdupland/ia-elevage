@@ -1,6 +1,8 @@
 prompts:
   general:
-    - "Lance mon calcul"
+    - "Lance mon calcul complet"
+    - "Donne moi uniquement le format de sortie en extrayant et calculant les valeurs"
+    - "Donnes moi la partie C en extrayant les valeurs"
 
 
 variables:
@@ -134,7 +136,6 @@ A1.2 : Date_fin_exercice : {date_fin_exercice}
 A2 : ADRESSE EXPLOITANT (Code postal) : {adresse_exploitant_code_postal}
 A3 : Nombre d'UTH (Unité Travail Humain) : {nombre_uth}
 A4 : Choix du type de Spécificités et/ou Certifications dans le menu déroulant ci dessous : {type_spec_certifications}
-A5 : Choix du type d'élevage dans le menu déroulant ci dessous : {type_elevage}
 A6 : Lait AOP dans le menu déroulant ci dessous : {type_elevage_lait_aop}
 
 
