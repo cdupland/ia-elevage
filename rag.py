@@ -69,36 +69,16 @@ class Rag:
 
     def ingest(self, pdf_file_path: str, original_file_name: str):
         print("Start ingestion")
-        summarizer = pipeline("summarization", model="facebook/bart-large-cnn", tokenizer="facebook/bart-large-cnn")
-        docs = PyPDFLoader(file_path=pdf_file_path).load()
-        
-        print("Splitting")
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=100, length_function=len)
-        chunks = text_splitter.split_documents(docs)
 
-        # chunks = filter_complex_metadata(chunks)
-
-        # Add summaries and generate embeddings
-        print("For each chunk")
-        enhanced_chunks = []
-        i = 1
-        
-        # for chunk in chunks:
-        #     # Summarize the chunk for additional metadata context
-        #     print(f"Summarizing chunk {str(i)} / {str(len(chunks))}")
-        #     summary = summarizer(chunk.page_content, max_length=50, min_length=25, do_sample=False)[0]['summary_text']
-        #     chunk.metadata['summary'] = summary
-        #     enhanced_chunks.append(chunk)
-        #     i += 1
-
+        docs = PyPDFLoader(file_path=pdf_file_path, extract_images=True).load()
 
         if self.document_vector_store is None:
-            self.document_vector_store = FAISS.from_documents(chunks, self.embedding)
+            self.document_vector_store = FAISS.from_documents(docs, self.embedding)
         else:
-            self.document_vector_store.add_documents(chunks)
+            self.document_vector_store.add_documents(docs)
 
         # Ajout des documents dans la liste `all_files`
-        self.all_files.append({ 'filename': original_file_name, 'contents': chunks })
+        self.all_files.append({ 'filename': original_file_name, 'contents': docs })
         
         print("As retriever")
         self.retriever = self.document_vector_store.as_retriever(
